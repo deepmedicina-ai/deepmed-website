@@ -14,7 +14,11 @@ import {
   ArrowRight,
   Moon,
   Sun,
-  Youtube
+  Youtube,
+  Check,
+  User,
+  Activity,
+  Award
 } from "lucide-react";
 import heroImage from "@assets/generated_images/abstract_medical_sound_wave_with_digital_tech_aesthetic.png";
 
@@ -156,6 +160,12 @@ export default function Home() {
                 <Youtube size={20} />
                 Ver no YouTube
               </a>
+              <a 
+                href="#about"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-transparent border border-border text-foreground font-bold text-lg hover:bg-secondary/50 transition-all"
+              >
+                Saiba Mais
+              </a>
             </div>
           </motion.div>
 
@@ -207,16 +217,20 @@ export default function Home() {
       {/* Stats Section */}
       <section className="py-12 border-y border-border bg-card/50">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-center divide-x divide-border/50">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center divide-x divide-border/50">
             <div className="p-4">
               <h3 className="text-4xl lg:text-5xl font-bold font-heading text-foreground mb-2">5K+</h3>
               <p className="text-muted-foreground font-medium">Streams Totais</p>
             </div>
             <div className="p-4">
               <h3 className="text-4xl lg:text-5xl font-bold font-heading text-foreground mb-2">475+</h3>
-              <p className="text-muted-foreground font-medium">Ouvintes Ativos</p>
+              <p className="text-muted-foreground font-medium">Ouvintes Únicos</p>
             </div>
-            <div className="p-4 col-span-2 md:col-span-1 border-t md:border-t-0 border-border/50 pt-8 md:pt-4">
+            <div className="p-4">
+              <h3 className="text-4xl lg:text-5xl font-bold font-heading text-foreground mb-2">100%</h3>
+              <p className="text-muted-foreground font-medium">Conteúdo Gratuito</p>
+            </div>
+            <div className="p-4">
               <h3 className="text-4xl lg:text-5xl font-bold font-heading text-foreground mb-2">15-20</h3>
               <p className="text-muted-foreground font-medium">Minutos por Episódio</p>
             </div>
@@ -225,13 +239,72 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-24 px-6 relative">
-        <div className="container mx-auto max-w-4xl text-center">
-          <span className="text-primary font-bold tracking-wider uppercase text-sm mb-4 block">Sobre o Deepmed</span>
-          <h2 className="text-3xl md:text-5xl font-bold font-heading mb-8">Otimize seu tempo de estudo</h2>
-          <p className="text-xl text-muted-foreground leading-relaxed mb-12">
-            Sabemos que a rotina do estudante de medicina é intensa. O Deepmed nasceu para transformar seus momentos de deslocamento e pausas em aprendizado ativo. Nossos episódios são densos em conteúdo, mas leves de ouvir, focados no que realmente cai nas provas e na prática clínica.
-          </p>
+      <section id="about" className="py-24 px-6 relative bg-background">
+        <div className="container mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-6">
+                <span className="w-2 h-2 rounded-full bg-primary" />
+                Sobre o deepmed
+              </span>
+              <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6 leading-tight">
+                O primeiro ecossistema educacional médico do Brasil
+              </h2>
+              <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+                O deepmed é o primeiro ecossistema educacional brasileiro focado em transformar o aprendizado de medicina através de conteúdo programático específico, alinhado ao currículo das faculdades de medicina.
+              </p>
+              <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+                Nossa missão é democratizar o conhecimento médico através de um ecossistema educacional inovador que transforma conteúdo de aula em experiências de aprendizado engajadoras e acessíveis.
+              </p>
+
+              <div className="space-y-4 mb-10">
+                {[
+                  "Único podcast brasileiro ancorado em conteúdo curricular específico de faculdade",
+                  "Criado por profissional com 20+ anos de experiência hospitalar combinada com vivência como estudante ativo",
+                  "Dupla perspectiva que conecta teoria acadêmica com prática profissional real do dia a dia",
+                  "Ecossistema completo: podcasts, guias de estudo, infográficos e questões comentadas estilo ENADE"
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-3">
+                    <div className="mt-1 min-w-5 min-h-5 w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+                      <Check size={12} strokeWidth={4} />
+                    </div>
+                    <p className="text-foreground/80">{item}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Creator Card */}
+              <div className="bg-card border border-border rounded-xl p-6 flex gap-4 items-start shadow-sm">
+                <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-foreground shrink-0">
+                  <User size={24} />
+                </div>
+                <div>
+                  <h4 className="font-bold text-lg mb-1">Fábio Silveira</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Fisioterapeuta com mais de 20 anos de experiência hospitalar e estudante de medicina na UNIVERSO. Combina vivência prática com conhecimento acadêmico para criar conteúdo educacional único e aplicável.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <FeatureDetailCard 
+                icon={<Award className="w-8 h-8 text-primary" />}
+                title="Foco no ENADE"
+                description="Conteúdo alinhado com o currículo e exigências da prova nacional"
+              />
+              <FeatureDetailCard 
+                icon={<Activity className="w-8 h-8 text-primary" />}
+                title="Abordagem Multimodal"
+                description="Aprenda do seu jeito: ouvindo podcasts, lendo guias ou visualizando infográficos"
+              />
+              <FeatureDetailCard 
+                icon={<BookOpen className="w-8 h-8 text-primary" />}
+                title="Base Científica"
+                description="Todo conteúdo revisado e fundamentado em evidências atuais da medicina"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -255,11 +328,13 @@ export default function Home() {
               icon={<BookOpen className="w-10 h-10 text-primary" />}
               title="Guias de Estudo"
               description="Materiais em PDF que acompanham cada episódio para você revisar e fixar o conteúdo."
+              link="https://drive.google.com/drive/folders/1VIhK9ciLWJ-FpL54mYdotKoJHBdfA74x?usp=sharing"
             />
             <FeatureCard 
               icon={<FileText className="w-10 h-10 text-primary" />}
               title="Infográficos"
               description="Resumos visuais de alta qualidade para consultas rápidas no dia a dia."
+              link="https://drive.google.com/drive/folders/1YhQbzt0bCNph7dO5iiC5IdWTMuLVthI8?usp=sharing"
             />
           </div>
         </div>
@@ -343,7 +418,7 @@ export default function Home() {
 
           <div className="flex gap-4">
             <a 
-              href="https://instagram.com/deepmed" 
+              href="https://instagram.com/_deepmed" 
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-all"
@@ -376,19 +451,48 @@ export default function Home() {
   );
 }
 
-function FeatureCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
-  return (
+function FeatureCard({ icon, title, description, link }: { icon: React.ReactNode, title: string, description: string, link?: string }) {
+  const CardContent = (
     <motion.div 
       whileHover={{ y: -5 }}
-      className="bg-card p-8 rounded-2xl border border-border shadow-sm hover:shadow-lg transition-all"
+      className="bg-card p-8 rounded-2xl border border-border shadow-sm hover:shadow-lg transition-all h-full flex flex-col"
     >
       <div className="mb-6 bg-primary/10 w-fit p-4 rounded-xl">
         {icon}
       </div>
       <h3 className="text-2xl font-bold font-heading mb-4">{title}</h3>
-      <p className="text-muted-foreground leading-relaxed">
+      <p className="text-muted-foreground leading-relaxed flex-grow">
         {description}
       </p>
+      {link && (
+        <div className="mt-6 flex items-center text-primary font-bold text-sm">
+          Acessar <ArrowRight size={16} className="ml-2" />
+        </div>
+      )}
     </motion.div>
+  );
+
+  if (link) {
+    return (
+      <a href={link} target="_blank" rel="noopener noreferrer" className="block h-full">
+        {CardContent}
+      </a>
+    );
+  }
+
+  return CardContent;
+}
+
+function FeatureDetailCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
+  return (
+    <div className="flex gap-6 items-start p-6 rounded-2xl bg-card border border-border hover:border-primary/50 transition-colors">
+      <div className="shrink-0 p-3 rounded-xl bg-primary/10 text-primary">
+        {icon}
+      </div>
+      <div>
+        <h3 className="text-xl font-bold font-heading mb-2">{title}</h3>
+        <p className="text-muted-foreground">{description}</p>
+      </div>
+    </div>
   );
 }
