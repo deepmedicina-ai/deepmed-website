@@ -1,0 +1,325 @@
+import { useState, useEffect } from "react";
+import { Link } from "wouter";
+import { motion } from "framer-motion";
+import { 
+  Headphones, 
+  BookOpen, 
+  FileText, 
+  Menu, 
+  X, 
+  Instagram, 
+  Twitter, 
+  Linkedin,
+  Play,
+  ArrowRight,
+  Moon,
+  Sun
+} from "lucide-react";
+import heroImage from "@assets/generated_images/abstract_medical_sound_wave_with_digital_tech_aesthetic.png";
+
+export default function Home() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDark, setIsDark] = useState(true); // Default to dark for "deep" vibe
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDark]);
+
+  return (
+    <div className="min-h-screen bg-background text-foreground overflow-x-hidden font-sans transition-colors duration-300">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
+        <div className="container mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-primary animate-pulse" />
+            <span className="text-2xl font-bold font-heading tracking-tight">deepmed</span>
+          </div>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#about" className="text-sm font-medium hover:text-primary transition-colors">Sobre</a>
+            <a href="#features" className="text-sm font-medium hover:text-primary transition-colors">Funcionalidades</a>
+            <a href="#episodes" className="text-sm font-medium hover:text-primary transition-colors">Episódios</a>
+            
+            <button 
+              onClick={() => setIsDark(!isDark)}
+              className="p-2 rounded-full hover:bg-muted transition-colors"
+              aria-label="Toggle theme"
+            >
+              {isDark ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+
+            <a 
+              href="https://spotify.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-5 py-2.5 rounded-full bg-primary text-primary-foreground font-bold text-sm hover:opacity-90 transition-all hover:scale-105 active:scale-95"
+            >
+              Ouvir Agora
+            </a>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="flex items-center gap-4 md:hidden">
+            <button 
+              onClick={() => setIsDark(!isDark)}
+              className="p-2 rounded-full hover:bg-muted transition-colors"
+            >
+              {isDark ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+            <button 
+              className="text-foreground"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X /> : <Menu />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        {isMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="md:hidden absolute top-20 left-0 w-full bg-background border-b border-border p-6 flex flex-col gap-4 shadow-2xl"
+          >
+            <a href="#about" className="text-lg font-medium" onClick={() => setIsMenuOpen(false)}>Sobre</a>
+            <a href="#features" className="text-lg font-medium" onClick={() => setIsMenuOpen(false)}>Funcionalidades</a>
+            <a href="#episodes" className="text-lg font-medium" onClick={() => setIsMenuOpen(false)}>Episódios</a>
+            <a 
+              href="https://spotify.com" 
+              className="w-full py-3 rounded-xl bg-primary text-center font-bold text-primary-foreground"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Ouvir Agora
+            </a>
+          </motion.div>
+        )}
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-6 overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+        
+        <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-2xl z-10"
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-6">
+              <span className="w-2 h-2 rounded-full bg-primary" />
+              Nova temporada disponível
+            </div>
+            <h1 className="text-5xl lg:text-7xl font-bold font-heading leading-[1.1] mb-6 tracking-tight">
+              Medicina de forma <span className="text-primary">simples</span> e <span className="text-primary">objetiva</span>.
+            </h1>
+            <p className="text-xl text-muted-foreground mb-8 leading-relaxed max-w-lg">
+              A plataforma definitiva para estudantes de medicina que buscam otimizar seus estudos com conteúdos de alta qualidade e fácil absorção.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <a 
+                href="https://spotify.com" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-primary text-primary-foreground font-bold text-lg hover:opacity-90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/25"
+              >
+                <Play fill="currentColor" size={20} />
+                Ouvir no Spotify
+              </a>
+              <a 
+                href="#features"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-secondary text-secondary-foreground font-bold text-lg hover:bg-secondary/80 transition-all"
+              >
+                Saiba Mais
+              </a>
+            </div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative lg:h-[600px] flex items-center justify-center"
+          >
+            <div className="relative w-full aspect-square max-w-[600px]">
+              <div className="absolute inset-0 rounded-full bg-primary/20 blur-[100px] animate-pulse" />
+              <img 
+                src={heroImage} 
+                alt="Medical Sound Wave Visualization" 
+                className="relative w-full h-full object-cover rounded-3xl shadow-2xl border border-white/10"
+                style={{ objectPosition: 'center' }}
+              />
+              
+              {/* Floating Cards */}
+              <motion.div 
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -bottom-6 -left-6 bg-card p-4 rounded-2xl shadow-xl border border-border max-w-[200px]"
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 rounded-lg bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400">
+                    <Headphones size={20} />
+                  </div>
+                  <span className="font-bold text-sm">Alta Qualidade</span>
+                </div>
+                <p className="text-xs text-muted-foreground">Áudio cristalino e conteúdo revisado por especialistas.</p>
+              </motion.div>
+
+              <motion.div 
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute top-10 -right-6 bg-card p-4 rounded-2xl shadow-xl border border-border max-w-[180px]"
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-2xl font-bold text-primary">5K+</span>
+                </div>
+                <p className="text-xs font-medium text-muted-foreground">Streams mensais</p>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-12 border-y border-border bg-card/50">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-center divide-x divide-border/50">
+            <div className="p-4">
+              <h3 className="text-4xl lg:text-5xl font-bold font-heading text-foreground mb-2">5K+</h3>
+              <p className="text-muted-foreground font-medium">Streams Totais</p>
+            </div>
+            <div className="p-4">
+              <h3 className="text-4xl lg:text-5xl font-bold font-heading text-foreground mb-2">475+</h3>
+              <p className="text-muted-foreground font-medium">Ouvintes Ativos</p>
+            </div>
+            <div className="p-4 col-span-2 md:col-span-1 border-t md:border-t-0 border-border/50 pt-8 md:pt-4">
+              <h3 className="text-4xl lg:text-5xl font-bold font-heading text-foreground mb-2">15-20</h3>
+              <p className="text-muted-foreground font-medium">Minutos por Episódio</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-24 px-6 relative">
+        <div className="container mx-auto max-w-4xl text-center">
+          <span className="text-primary font-bold tracking-wider uppercase text-sm mb-4 block">Sobre o Deepmed</span>
+          <h2 className="text-3xl md:text-5xl font-bold font-heading mb-8">Otimize seu tempo de estudo</h2>
+          <p className="text-xl text-muted-foreground leading-relaxed mb-12">
+            Sabemos que a rotina do estudante de medicina é intensa. O Deepmed nasceu para transformar seus momentos de deslocamento e pausas em aprendizado ativo. Nossos episódios são densos em conteúdo, mas leves de ouvir, focados no que realmente cai nas provas e na prática clínica.
+          </p>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section id="features" className="py-24 px-6 bg-secondary/30">
+        <div className="container mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6">Tudo o que você precisa</h2>
+            <p className="text-muted-foreground text-lg">
+              Uma plataforma completa para complementar sua formação médica.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <FeatureCard 
+              icon={<Headphones className="w-10 h-10 text-primary" />}
+              title="Podcasts Exclusivos"
+              description="Episódios curtos e diretos ao ponto sobre as principais patologias e condutas médicas."
+            />
+            <FeatureCard 
+              icon={<BookOpen className="w-10 h-10 text-primary" />}
+              title="Guias de Estudo"
+              description="Materiais em PDF que acompanham cada episódio para você revisar e fixar o conteúdo."
+            />
+            <FeatureCard 
+              icon={<FileText className="w-10 h-10 text-primary" />}
+              title="Infográficos"
+              description="Resumos visuais de alta qualidade para consultas rápidas no dia a dia."
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-primary/10 -skew-y-3 transform origin-left scale-110" />
+        <div className="container mx-auto relative z-10">
+          <div className="bg-background border border-border rounded-3xl p-8 md:p-16 text-center shadow-2xl max-w-5xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6">Comece a aprender agora</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
+              Junte-se a centenas de estudantes que já estão transformando sua forma de estudar medicina.
+            </p>
+            <a 
+              href="https://spotify.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-primary-foreground font-bold text-xl hover:opacity-90 transition-all hover:scale-105 shadow-xl shadow-primary/30"
+            >
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+              </span>
+              Ouvir no Spotify
+              <ArrowRight size={20} />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-background border-t border-border py-12 px-6">
+        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-primary" />
+            <span className="text-xl font-bold font-heading">deepmed</span>
+          </div>
+          
+          <div className="flex gap-6 text-sm text-muted-foreground">
+            <a href="#" className="hover:text-primary transition-colors">Termos</a>
+            <a href="#" className="hover:text-primary transition-colors">Privacidade</a>
+            <a href="#" className="hover:text-primary transition-colors">Contato</a>
+          </div>
+
+          <div className="flex gap-4">
+            <a href="#" className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-all">
+              <Instagram size={20} />
+            </a>
+            <a href="#" className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-all">
+              <Twitter size={20} />
+            </a>
+            <a href="#" className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-all">
+              <Linkedin size={20} />
+            </a>
+          </div>
+        </div>
+        <div className="container mx-auto text-center mt-12 text-xs text-muted-foreground">
+          © {new Date().getFullYear()} deepmed. Todos os direitos reservados.
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+function FeatureCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
+  return (
+    <motion.div 
+      whileHover={{ y: -5 }}
+      className="bg-card p-8 rounded-2xl border border-border shadow-sm hover:shadow-lg transition-all"
+    >
+      <div className="mb-6 bg-primary/10 w-fit p-4 rounded-xl">
+        {icon}
+      </div>
+      <h3 className="text-2xl font-bold font-heading mb-4">{title}</h3>
+      <p className="text-muted-foreground leading-relaxed">
+        {description}
+      </p>
+    </motion.div>
+  );
+}
