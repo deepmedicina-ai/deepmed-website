@@ -13,7 +13,8 @@ import {
   Play,
   ArrowRight,
   Moon,
-  Sun
+  Sun,
+  Youtube
 } from "lucide-react";
 import heroImage from "@assets/generated_images/abstract_medical_sound_wave_with_digital_tech_aesthetic.png";
 
@@ -54,7 +55,7 @@ export default function Home() {
             </button>
 
             <a 
-              href="https://spotify.com" 
+              href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867" 
               target="_blank" 
               rel="noopener noreferrer"
               className="px-5 py-2.5 rounded-full bg-primary text-primary-foreground font-bold text-sm hover:opacity-90 transition-all hover:scale-105 active:scale-95"
@@ -91,7 +92,7 @@ export default function Home() {
             <a href="#features" className="text-lg font-medium" onClick={() => setIsMenuOpen(false)}>Funcionalidades</a>
             <a href="#episodes" className="text-lg font-medium" onClick={() => setIsMenuOpen(false)}>Episódios</a>
             <a 
-              href="https://spotify.com" 
+              href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867" 
               className="w-full py-3 rounded-xl bg-primary text-center font-bold text-primary-foreground"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -122,9 +123,23 @@ export default function Home() {
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed max-w-lg">
               A plataforma definitiva para estudantes de medicina que buscam otimizar seus estudos com conteúdos de alta qualidade e fácil absorção.
             </p>
+            
+            <div className="mb-8 w-full max-w-lg rounded-xl overflow-hidden shadow-lg border border-border">
+              <iframe 
+                style={{borderRadius: '12px'}} 
+                src="https://open.spotify.com/embed/show/6D8TyR1ly2YbaTmQWKHJwv?utm_source=generator" 
+                width="100%" 
+                height="152" 
+                frameBorder="0" 
+                allowFullScreen 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                loading="lazy"
+              ></iframe>
+            </div>
+
             <div className="flex flex-col sm:flex-row gap-4">
               <a 
-                href="https://spotify.com" 
+                href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-primary text-primary-foreground font-bold text-lg hover:opacity-90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/25"
@@ -133,10 +148,13 @@ export default function Home() {
                 Ouvir no Spotify
               </a>
               <a 
-                href="#features"
+                href="https://youtube.com/playlist?list=PLqTPT03W8PfgjOxwm4kKm94lQMoKWNGLI&si=eQBHBdKegD1zwjJK"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-secondary text-secondary-foreground font-bold text-lg hover:bg-secondary/80 transition-all"
               >
-                Saiba Mais
+                <Youtube size={20} />
+                Ver no YouTube
               </a>
             </div>
           </motion.div>
@@ -247,6 +265,42 @@ export default function Home() {
         </div>
       </section>
 
+      {/* YouTube Section */}
+      <section className="py-24 px-6 bg-background">
+        <div className="container mx-auto max-w-5xl">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="order-2 md:order-1">
+              <div className="rounded-2xl overflow-hidden shadow-2xl border border-border">
+                <iframe 
+                  width="100%" 
+                  style={{ aspectRatio: '16/9' }} 
+                  src="https://www.youtube.com/embed/videoseries?si=D_t8_GHUehZdLp4J&list=PLqTPT03W8PfgjOxwm4kKm94lQMoKWNGLI" 
+                  frameBorder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </div>
+            <div className="order-1 md:order-2">
+              <span className="text-primary font-bold tracking-wider uppercase text-sm mb-4 block">Conteúdo Visual</span>
+              <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6">Assista no YouTube</h2>
+              <p className="text-xl text-muted-foreground leading-relaxed mb-8">
+                Conteúdo visual completo para complementar seu aprendizado, com aulas dinâmicas e explicações detalhadas.
+              </p>
+              <a 
+                href="https://youtube.com/playlist?list=PLqTPT03W8PfgjOxwm4kKm94lQMoKWNGLI&si=eQBHBdKegD1zwjJK"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#FF0000] text-white font-bold text-lg hover:opacity-90 transition-all hover:scale-105 shadow-xl shadow-[#FF0000]/20"
+              >
+                <Youtube fill="currentColor" size={20} />
+                Inscrever-se no Canal
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-24 px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-primary/10 -skew-y-3 transform origin-left scale-110" />
@@ -257,7 +311,7 @@ export default function Home() {
               Junte-se a centenas de estudantes que já estão transformando sua forma de estudar medicina.
             </p>
             <a 
-              href="https://spotify.com" 
+              href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867" 
               target="_blank" 
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-primary-foreground font-bold text-xl hover:opacity-90 transition-all hover:scale-105 shadow-xl shadow-primary/30"
@@ -288,14 +342,29 @@ export default function Home() {
           </div>
 
           <div className="flex gap-4">
-            <a href="#" className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-all">
+            <a 
+              href="https://instagram.com/deepmed" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-all"
+            >
               <Instagram size={20} />
             </a>
-            <a href="#" className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-all">
-              <Twitter size={20} />
+            <a 
+              href="https://youtube.com/playlist?list=PLqTPT03W8PfgjOxwm4kKm94lQMoKWNGLI&si=eQBHBdKegD1zwjJK" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-all"
+            >
+              <Youtube size={20} />
             </a>
-            <a href="#" className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-all">
-              <Linkedin size={20} />
+            <a 
+              href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-all"
+            >
+              <Headphones size={20} />
             </a>
           </div>
         </div>
