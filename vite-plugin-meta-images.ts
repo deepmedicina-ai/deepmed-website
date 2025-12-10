@@ -4,15 +4,16 @@ import path from 'path';
 
 /**
  * Vite plugin that updates og:image and twitter:image meta tags
- * to point to the app's opengraph image with the correct Replit domain.
+ * to point to the app's opengraph image with the correct domain.
  */
 export function metaImagesPlugin(): Plugin {
   return {
     name: 'vite-plugin-meta-images',
     transformIndexHtml(html) {
       const baseUrl = getDeploymentUrl();
+
       if (!baseUrl) {
-        log('[meta-images] no Replit deployment domain found, skipping meta tag updates');
+        log('[meta-images] no deployment domain found, skipping meta tag updates');
         return html;
       }
 
@@ -37,7 +38,6 @@ export function metaImagesPlugin(): Plugin {
       }
 
       const imageUrl = `${baseUrl}/opengraph.${imageExt}`;
-
       log('[meta-images] updating meta image tags to:', imageUrl);
 
       html = html.replace(
@@ -56,12 +56,21 @@ export function metaImagesPlugin(): Plugin {
 }
 
 function getDeploymentUrl(): string | null {
+  // Production domain - deepmed.net.br
+  if (process.env.NODE_ENV === 'production') {
+    const prodUrl = 'https://deepmed.net.br';
+    log('[meta-images] using production domain:', prodUrl);
+    return prodUrl;
+  }
+
+  // Replit internal app domain (development)
   if (process.env.REPLIT_INTERNAL_APP_DOMAIN) {
     const url = `https://${process.env.REPLIT_INTERNAL_APP_DOMAIN}`;
     log('[meta-images] using internal app domain:', url);
     return url;
   }
 
+  // Replit dev domain (development)
   if (process.env.REPLIT_DEV_DOMAIN) {
     const url = `https://${process.env.REPLIT_DEV_DOMAIN}`;
     log('[meta-images] using dev domain:', url);
@@ -72,7 +81,5 @@ function getDeploymentUrl(): string | null {
 }
 
 function log(...args: any[]): void {
-  if (process.env.NODE_ENV === 'production') {
-    console.log(...args);
-  }
+  console.log(...args);
 }
