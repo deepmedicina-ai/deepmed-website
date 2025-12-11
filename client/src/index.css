@@ -51,7 +51,7 @@
 
 @layer base {
   :root {
-    /* Brand Color: #00D98C -> 159 100% 42.5% */
+    /* Brand Color: #46DA61 -> 140 78% 65% */
     --background: 0 0% 100%;
     --foreground: 222 47% 11%;
 
@@ -61,7 +61,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
 
-    --primary: 159 100% 42.5%; /* #00D98C */
+    --primary: 140 78% 65%; /* #46DA61 */
     --primary-foreground: 222 47% 11%; /* Dark text on bright green */
 
     --secondary: 210 40% 96.1%;
