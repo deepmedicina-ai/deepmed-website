@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { 
-  Headphones, 
-  BookOpen, 
-  FileText, 
-  Menu, 
-  X, 
-  Instagram, 
-  Twitter, 
+import {
+  Headphones,
+  BookOpen,
+  FileText,
+  Menu,
+  X,
+  Instagram,
+  Twitter,
   Linkedin,
   Play,
   ArrowRight,
@@ -18,7 +18,7 @@ import {
   Check,
   User,
   Activity,
-  Award
+  Award,
 } from "lucide-react";
 import heroImage from "@assets/generated_images/abstract_medical_sound_wave_with_digital_tech_aesthetic.png";
 
@@ -28,9 +28,9 @@ export default function Home() {
 
   useEffect(() => {
     if (isDark) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove("dark");
     }
   }, [isDark]);
 
@@ -40,17 +40,34 @@ export default function Home() {
       <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-primary animate-pulse" />
-            <span className="text-2xl font-bold font-heading tracking-tight">deepmed</span>
+            <img
+              src="/logo-deepmed.png"
+              alt="deepmed"
+              className="h-8 md:h-10 w-auto"
+            />
           </div>
-
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="#about" className="text-sm font-medium hover:text-primary transition-colors">Sobre</a>
-            <a href="#features" className="text-sm font-medium hover:text-primary transition-colors">Funcionalidades</a>
-            <a href="#episodes" className="text-sm font-medium hover:text-primary transition-colors">Episódios</a>
-            
-            <button 
+            <a
+              href="#about"
+              className="text-sm font-medium hover:text-primary transition-colors"
+            >
+              Sobre
+            </a>
+            <a
+              href="#features"
+              className="text-sm font-medium hover:text-primary transition-colors"
+            >
+              Funcionalidades
+            </a>
+            <a
+              href="#episodes"
+              className="text-sm font-medium hover:text-primary transition-colors"
+            >
+              Episódios
+            </a>
+
+            <button
               onClick={() => setIsDark(!isDark)}
               className="p-2 rounded-full hover:bg-muted transition-colors"
               aria-label="Toggle theme"
@@ -58,9 +75,9 @@ export default function Home() {
               {isDark ? <Sun size={20} /> : <Moon size={20} />}
             </button>
 
-            <a 
-              href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867" 
-              target="_blank" 
+            <a
+              href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867"
+              target="_blank"
               rel="noopener noreferrer"
               className="px-5 py-2.5 rounded-full bg-primary text-primary-foreground font-bold text-sm hover:opacity-90 transition-all hover:scale-105 active:scale-95"
             >
@@ -70,13 +87,13 @@ export default function Home() {
 
           {/* Mobile Menu Button */}
           <div className="flex items-center gap-4 md:hidden">
-            <button 
+            <button
               onClick={() => setIsDark(!isDark)}
               className="p-2 rounded-full hover:bg-muted transition-colors"
             >
               {isDark ? <Sun size={20} /> : <Moon size={20} />}
             </button>
-            <button 
+            <button
               className="text-foreground"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
@@ -87,16 +104,34 @@ export default function Home() {
 
         {/* Mobile Menu Overlay */}
         {isMenuOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="md:hidden absolute top-20 left-0 w-full bg-background border-b border-border p-6 flex flex-col gap-4 shadow-2xl"
           >
-            <a href="#about" className="text-lg font-medium" onClick={() => setIsMenuOpen(false)}>Sobre</a>
-            <a href="#features" className="text-lg font-medium" onClick={() => setIsMenuOpen(false)}>Funcionalidades</a>
-            <a href="#episodes" className="text-lg font-medium" onClick={() => setIsMenuOpen(false)}>Episódios</a>
-            <a 
-              href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867" 
+            <a
+              href="#about"
+              className="text-lg font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Sobre
+            </a>
+            <a
+              href="#features"
+              className="text-lg font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Funcionalidades
+            </a>
+            <a
+              href="#episodes"
+              className="text-lg font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Episódios
+            </a>
+            <a
+              href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867"
               className="w-full py-3 rounded-xl bg-primary text-center font-bold text-primary-foreground"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -109,9 +144,9 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-6 overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
-        
+
         <div className="container mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
@@ -122,28 +157,31 @@ export default function Home() {
               Nova temporada disponível
             </div>
             <h1 className="text-5xl lg:text-7xl font-bold font-heading leading-[1.1] mb-6 tracking-tight">
-              Medicina de forma <span className="text-primary">simples</span> e <span className="text-primary">objetiva</span>.
+              Medicina de forma <span className="text-primary">simples</span> e{" "}
+              <span className="text-primary">objetiva</span>.
             </h1>
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed max-w-lg">
-              A plataforma definitiva para estudantes de medicina que buscam otimizar seus estudos com conteúdos de alta qualidade e fácil absorção.
+              A plataforma definitiva para estudantes de medicina que buscam
+              otimizar seus estudos com conteúdos de alta qualidade e fácil
+              absorção.
             </p>
-            
+
             <div className="mb-8 w-full max-w-lg rounded-xl overflow-hidden shadow-lg border border-border">
-              <iframe 
-                style={{borderRadius: '12px'}} 
-                src="https://open.spotify.com/embed/show/6D8TyR1ly2YbaTmQWKHJwv?utm_source=generator" 
-                width="100%" 
-                height="152" 
-                frameBorder="0" 
-                allowFullScreen 
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+              <iframe
+                style={{ borderRadius: "12px" }}
+                src="https://open.spotify.com/embed/show/6D8TyR1ly2YbaTmQWKHJwv?utm_source=generator"
+                width="100%"
+                height="152"
+                frameBorder="0"
+                allowFullScreen
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                 loading="lazy"
               ></iframe>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <a 
-                href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867" 
+              <a
+                href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-primary text-primary-foreground font-bold text-lg hover:opacity-90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/25"
@@ -151,7 +189,7 @@ export default function Home() {
                 <Play fill="currentColor" size={20} />
                 Ouvir no Spotify
               </a>
-              <a 
+              <a
                 href="https://youtube.com/playlist?list=PLqTPT03W8PfgjOxwm4kKm94lQMoKWNGLI&si=eQBHBdKegD1zwjJK"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -160,7 +198,7 @@ export default function Home() {
                 <Youtube size={20} />
                 Ver no YouTube
               </a>
-              <a 
+              <a
                 href="#about"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-transparent border border-border text-foreground font-bold text-lg hover:bg-secondary/50 transition-all"
               >
@@ -169,7 +207,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -177,17 +215,21 @@ export default function Home() {
           >
             <div className="relative w-full aspect-square max-w-[600px]">
               <div className="absolute inset-0 rounded-full bg-primary/20 blur-[100px] animate-pulse" />
-              <img 
-                src={heroImage} 
-                alt="Medical Sound Wave Visualization" 
+              <img
+                src={heroImage}
+                alt="Medical Sound Wave Visualization"
                 className="relative w-full h-full object-cover rounded-3xl shadow-2xl border border-white/10"
-                style={{ objectPosition: 'center' }}
+                style={{ objectPosition: "center" }}
               />
-              
+
               {/* Floating Cards */}
-              <motion.div 
+              <motion.div
                 animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
                 className="absolute -bottom-6 -left-6 bg-card p-4 rounded-2xl shadow-xl border border-border max-w-[200px]"
               >
                 <div className="flex items-center gap-3 mb-2">
@@ -196,18 +238,27 @@ export default function Home() {
                   </div>
                   <span className="font-bold text-sm">Alta Qualidade</span>
                 </div>
-                <p className="text-xs text-muted-foreground">Áudio cristalino e conteúdo revisado por especialistas.</p>
+                <p className="text-xs text-muted-foreground">
+                  Áudio cristalino e conteúdo revisado por especialistas.
+                </p>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 1,
+                }}
                 className="absolute top-10 -right-6 bg-card p-4 rounded-2xl shadow-xl border border-border max-w-[180px]"
               >
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-2xl font-bold text-primary">5K+</span>
                 </div>
-                <p className="text-xs font-medium text-muted-foreground">Streams mensais</p>
+                <p className="text-xs font-medium text-muted-foreground">
+                  Streams mensais
+                </p>
               </motion.div>
             </div>
           </motion.div>
@@ -219,20 +270,36 @@ export default function Home() {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center divide-x divide-border/50">
             <div className="p-4">
-              <h3 className="text-4xl lg:text-5xl font-bold font-heading text-foreground mb-2">5K+</h3>
-              <p className="text-muted-foreground font-medium">Streams Totais</p>
+              <h3 className="text-4xl lg:text-5xl font-bold font-heading text-foreground mb-2">
+                5K+
+              </h3>
+              <p className="text-muted-foreground font-medium">
+                Streams Totais
+              </p>
             </div>
             <div className="p-4">
-              <h3 className="text-4xl lg:text-5xl font-bold font-heading text-foreground mb-2">475+</h3>
-              <p className="text-muted-foreground font-medium">Ouvintes Únicos</p>
+              <h3 className="text-4xl lg:text-5xl font-bold font-heading text-foreground mb-2">
+                475+
+              </h3>
+              <p className="text-muted-foreground font-medium">
+                Ouvintes Únicos
+              </p>
             </div>
             <div className="p-4">
-              <h3 className="text-4xl lg:text-5xl font-bold font-heading text-foreground mb-2">100%</h3>
-              <p className="text-muted-foreground font-medium">Conteúdo Gratuito</p>
+              <h3 className="text-4xl lg:text-5xl font-bold font-heading text-foreground mb-2">
+                100%
+              </h3>
+              <p className="text-muted-foreground font-medium">
+                Conteúdo Gratuito
+              </p>
             </div>
             <div className="p-4">
-              <h3 className="text-4xl lg:text-5xl font-bold font-heading text-foreground mb-2">15-20</h3>
-              <p className="text-muted-foreground font-medium">Minutos por Episódio</p>
+              <h3 className="text-4xl lg:text-5xl font-bold font-heading text-foreground mb-2">
+                15-20
+              </h3>
+              <p className="text-muted-foreground font-medium">
+                Minutos por Episódio
+              </p>
             </div>
           </div>
         </div>
@@ -251,10 +318,15 @@ export default function Home() {
                 O primeiro ecossistema educacional médico do Brasil
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                O deepmed é o primeiro ecossistema educacional brasileiro focado em transformar o aprendizado de medicina através de conteúdo programático específico, alinhado ao currículo das faculdades de medicina.
+                O deepmed é o primeiro ecossistema educacional brasileiro focado
+                em transformar o aprendizado de medicina através de conteúdo
+                programático específico, alinhado ao currículo das faculdades de
+                medicina.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                Nossa missão é democratizar o conhecimento médico através de um ecossistema educacional inovador que transforma conteúdo de aula em experiências de aprendizado engajadoras e acessíveis.
+                Nossa missão é democratizar o conhecimento médico através de um
+                ecossistema educacional inovador que transforma conteúdo de aula
+                em experiências de aprendizado engajadoras e acessíveis.
               </p>
 
               <div className="space-y-4 mb-10">
@@ -262,7 +334,7 @@ export default function Home() {
                   "Único podcast brasileiro ancorado em conteúdo curricular específico de faculdade",
                   "Criado por profissional com 20+ anos de experiência hospitalar combinada com vivência como estudante ativo",
                   "Dupla perspectiva que conecta teoria acadêmica com prática profissional real do dia a dia",
-                  "Ecossistema completo: podcasts, guias de estudo, infográficos e questões comentadas estilo ENADE"
+                  "Ecossistema completo: podcasts, guias de estudo, infográficos e questões comentadas estilo ENADE",
                 ].map((item, i) => (
                   <div key={i} className="flex gap-3">
                     <div className="mt-1 min-w-5 min-h-5 w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center text-primary">
@@ -281,24 +353,27 @@ export default function Home() {
                 <div>
                   <h4 className="font-bold text-lg mb-1">Fábio Silveira</h4>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Fisioterapeuta com mais de 20 anos de experiência hospitalar e estudante de medicina na UNIVERSO. Combina vivência prática com conhecimento acadêmico para criar conteúdo educacional único e aplicável.
+                    Fisioterapeuta com mais de 20 anos de experiência hospitalar
+                    e estudante de medicina na UNIVERSO. Combina vivência
+                    prática com conhecimento acadêmico para criar conteúdo
+                    educacional único e aplicável.
                   </p>
                 </div>
               </div>
             </div>
 
             <div className="space-y-6">
-              <FeatureDetailCard 
+              <FeatureDetailCard
                 icon={<Award className="w-8 h-8 text-primary" />}
                 title="Foco no ENADE"
                 description="Conteúdo alinhado com o currículo e exigências da prova nacional"
               />
-              <FeatureDetailCard 
+              <FeatureDetailCard
                 icon={<Activity className="w-8 h-8 text-primary" />}
                 title="Abordagem Multimodal"
                 description="Aprenda do seu jeito: ouvindo podcasts, lendo guias ou visualizando infográficos"
               />
-              <FeatureDetailCard 
+              <FeatureDetailCard
                 icon={<BookOpen className="w-8 h-8 text-primary" />}
                 title="Base Científica"
                 description="Todo conteúdo revisado e fundamentado em evidências atuais da medicina"
@@ -312,25 +387,27 @@ export default function Home() {
       <section id="features" className="py-24 px-6 bg-secondary/30">
         <div className="container mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6">Tudo o que você precisa</h2>
+            <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6">
+              Tudo o que você precisa
+            </h2>
             <p className="text-muted-foreground text-lg">
               Uma plataforma completa para complementar sua formação médica.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <FeatureCard 
+            <FeatureCard
               icon={<Headphones className="w-10 h-10 text-primary" />}
               title="Podcasts Exclusivos"
               description="Episódios curtos e diretos ao ponto sobre as principais patologias e condutas médicas."
             />
-            <FeatureCard 
+            <FeatureCard
               icon={<BookOpen className="w-10 h-10 text-primary" />}
               title="Guias de Estudo"
               description="Materiais em PDF que acompanham cada episódio para você revisar e fixar o conteúdo."
               link="https://drive.google.com/drive/folders/1VIhK9ciLWJ-FpL54mYdotKoJHBdfA74x?usp=sharing"
             />
-            <FeatureCard 
+            <FeatureCard
               icon={<FileText className="w-10 h-10 text-primary" />}
               title="Infográficos"
               description="Resumos visuais de alta qualidade para consultas rápidas no dia a dia."
@@ -346,23 +423,28 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="order-2 md:order-1">
               <div className="rounded-2xl overflow-hidden shadow-2xl border border-border">
-                <iframe 
-                  width="100%" 
-                  style={{ aspectRatio: '16/9' }} 
-                  src="https://www.youtube.com/embed/videoseries?si=D_t8_GHUehZdLp4J&list=PLqTPT03W8PfgjOxwm4kKm94lQMoKWNGLI" 
-                  frameBorder="0" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                <iframe
+                  width="100%"
+                  style={{ aspectRatio: "16/9" }}
+                  src="https://www.youtube.com/embed/videoseries?si=D_t8_GHUehZdLp4J&list=PLqTPT03W8PfgjOxwm4kKm94lQMoKWNGLI"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
                 ></iframe>
               </div>
             </div>
             <div className="order-1 md:order-2">
-              <span className="text-primary font-bold tracking-wider uppercase text-sm mb-4 block">Conteúdo Visual</span>
-              <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6">Assista no YouTube</h2>
+              <span className="text-primary font-bold tracking-wider uppercase text-sm mb-4 block">
+                Conteúdo Visual
+              </span>
+              <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6">
+                Assista no YouTube
+              </h2>
               <p className="text-xl text-muted-foreground leading-relaxed mb-8">
-                Conteúdo visual completo para complementar seu aprendizado, com aulas dinâmicas e explicações detalhadas.
+                Conteúdo visual completo para complementar seu aprendizado, com
+                aulas dinâmicas e explicações detalhadas.
               </p>
-              <a 
+              <a
                 href="https://youtube.com/playlist?list=PLqTPT03W8PfgjOxwm4kKm94lQMoKWNGLI&si=eQBHBdKegD1zwjJK"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -381,13 +463,16 @@ export default function Home() {
         <div className="absolute inset-0 bg-primary/10 -skew-y-3 transform origin-left scale-110" />
         <div className="container mx-auto relative z-10">
           <div className="bg-background border border-border rounded-3xl p-8 md:p-16 text-center shadow-2xl max-w-5xl mx-auto">
-            <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6">Comece a aprender agora</h2>
+            <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6">
+              Comece a aprender agora
+            </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-              Junte-se a centenas de estudantes que já estão transformando sua forma de estudar medicina.
+              Junte-se a centenas de estudantes que já estão transformando sua
+              forma de estudar medicina.
             </p>
-            <a 
-              href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867" 
-              target="_blank" 
+            <a
+              href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867"
+              target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-primary-foreground font-bold text-xl hover:opacity-90 transition-all hover:scale-105 shadow-xl shadow-primary/30"
             >
@@ -406,35 +491,44 @@ export default function Home() {
       <footer className="bg-background border-t border-border py-12 px-6">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-primary" />
-            <span className="text-xl font-bold font-heading">deepmed</span>
+            <img
+              src="/logo-deepmed.png"
+              alt="deepmed"
+              className="h-6 md:h-8 w-auto"
+            />
           </div>
-          
+
           <div className="flex gap-6 text-sm text-muted-foreground">
-            <a href="#" className="hover:text-primary transition-colors">Termos</a>
-            <a href="#" className="hover:text-primary transition-colors">Privacidade</a>
-            <a href="#" className="hover:text-primary transition-colors">Contato</a>
+            <a href="#" className="hover:text-primary transition-colors">
+              Termos
+            </a>
+            <a href="#" className="hover:text-primary transition-colors">
+              Privacidade
+            </a>
+            <a href="#" className="hover:text-primary transition-colors">
+              Contato
+            </a>
           </div>
 
           <div className="flex gap-4">
-            <a 
-              href="https://instagram.com/_deepmed" 
+            <a
+              href="https://instagram.com/_deepmed"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-all"
             >
               <Instagram size={20} />
             </a>
-            <a 
-              href="https://youtube.com/playlist?list=PLqTPT03W8PfgjOxwm4kKm94lQMoKWNGLI&si=eQBHBdKegD1zwjJK" 
+            <a
+              href="https://youtube.com/playlist?list=PLqTPT03W8PfgjOxwm4kKm94lQMoKWNGLI&si=eQBHBdKegD1zwjJK"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-all"
             >
               <Youtube size={20} />
             </a>
-            <a 
-              href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867" 
+            <a
+              href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-all"
@@ -451,15 +545,23 @@ export default function Home() {
   );
 }
 
-function FeatureCard({ icon, title, description, link }: { icon: React.ReactNode, title: string, description: string, link?: string }) {
+function FeatureCard({
+  icon,
+  title,
+  description,
+  link,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  link?: string;
+}) {
   const CardContent = (
-    <motion.div 
+    <motion.div
       whileHover={{ y: -5 }}
       className="bg-card p-8 rounded-2xl border border-border shadow-sm hover:shadow-lg transition-all h-full flex flex-col"
     >
-      <div className="mb-6 bg-primary/10 w-fit p-4 rounded-xl">
-        {icon}
-      </div>
+      <div className="mb-6 bg-primary/10 w-fit p-4 rounded-xl">{icon}</div>
       <h3 className="text-2xl font-bold font-heading mb-4">{title}</h3>
       <p className="text-muted-foreground leading-relaxed flex-grow">
         {description}
@@ -474,7 +576,12 @@ function FeatureCard({ icon, title, description, link }: { icon: React.ReactNode
 
   if (link) {
     return (
-      <a href={link} target="_blank" rel="noopener noreferrer" className="block h-full">
+      <a
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block h-full"
+      >
         {CardContent}
       </a>
     );
@@ -483,7 +590,15 @@ function FeatureCard({ icon, title, description, link }: { icon: React.ReactNode
   return CardContent;
 }
 
-function FeatureDetailCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
+function FeatureDetailCard({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) {
   return (
     <div className="flex gap-6 items-start p-6 rounded-2xl bg-card border border-border hover:border-primary/50 transition-colors">
       <div className="shrink-0 p-3 rounded-xl bg-primary/10 text-primary">
