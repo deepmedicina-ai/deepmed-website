@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 // 1. CORREÇÃO: O import da imagem deve ficar aqui fora, separado
-import logoDeepMed from "../assets/logo-deepmed.png";
+import logoDeepMed from '../assets/logo-icon.svg'; 
 
 import {
   Headphones,
@@ -319,9 +319,7 @@ export default function Home() {
                 Sobre o deepmed
               </span>
               <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6 leading-tight">
-                O primeiro ecossistema educacional médico do Brasil baseado
-                exclusivamente no conteúdo das aulas do dia a dia{" "}
-              </h2>
+                O primeiro ecossistema educacional médico do Brasil baseado exclusivamente no conteúdo das aulas do dia a dia              </h2>  
               <p className="text-lg text-muted-foreground leading-relaxed mb-8">
                 O deepmed é o primeiro ecossistema educacional brasileiro focado
                 em transformar o aprendizado de medicina através de conteúdo
