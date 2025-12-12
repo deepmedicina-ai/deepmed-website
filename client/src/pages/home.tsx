@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
+// 1. CORREÇÃO: O import da imagem deve ficar aqui fora, separado
+import logoDeepMed from '../assets/logo-icon.svg'; 
+
 import {
   Headphones,
   BookOpen,
@@ -24,7 +27,7 @@ import heroImage from "@assets/generated_images/abstract_medical_sound_wave_with
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDark, setIsDark] = useState(true); // Default to dark for "deep" vibe
+  const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
     if (isDark) {
@@ -40,8 +43,9 @@ export default function Home() {
       <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2">
+            {/* 2. CORREÇÃO: Usando a variável importada aqui no cabeçalho */}
             <img
-              src="/logo-deepmed.png"
+              src={logoDeepMed}
               alt="deepmed"
               className="h-8 md:h-10 w-auto"
             />
@@ -315,8 +319,7 @@ export default function Home() {
                 Sobre o deepmed
               </span>
               <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6 leading-tight">
-                O primeiro ecossistema educacional médico do Brasil
-              </h2>
+                O primeiro ecossistema educacional médico do Brasil baseado exclusivamente no conteúdo das aulas do dia a dia              </h2>  
               <p className="text-lg text-muted-foreground leading-relaxed mb-8">
                 O deepmed é o primeiro ecossistema educacional brasileiro focado
                 em transformar o aprendizado de medicina através de conteúdo
@@ -491,13 +494,9 @@ export default function Home() {
       <footer className="bg-background border-t border-border py-12 px-6">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-2">
-            <img
-              src="/logo-deepmed.png"
-              alt="deepmed"
-              className="h-6 md:h-8 w-auto"
-            />
+            {/* 3. CORREÇÃO: Arrumei o erro de digitação <<img e usei a variável */}
+            <img src={logoDeepMed} alt="DeepMed" className="h-8 w-auto" />
           </div>
-
           <div className="flex gap-6 text-sm text-muted-foreground">
             <a href="#" className="hover:text-primary transition-colors">
               Termos
