@@ -399,10 +399,11 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <FeatureCard
+            <FeatureCard 
               icon={<Headphones className="w-10 h-10 text-primary" />}
               title="Podcasts Exclusivos"
               description="Episódios curtos e diretos ao ponto sobre as principais patologias e condutas médicas."
+              link="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867"
             />
             <FeatureCard
               icon={<BookOpen className="w-10 h-10 text-primary" />}
@@ -491,7 +492,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-background border-t border-border py-12 px-6">
+      <footer className="bg-background border-t border-border py-1<FeatureCard 2 px-6">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-2">
             {/* 3. CORREÇÃO: Arrumei o erro de digitação <<img e usei a variável */}
