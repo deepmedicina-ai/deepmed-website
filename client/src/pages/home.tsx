@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import logoDeepMed from '../assets/logo-icon.svg'; 
 
 import {
   Headphones,
