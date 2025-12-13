@@ -491,7 +491,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-background border-t border-border py-1<FeatureCard 2 px-6">
+      <footer className="bg-background border-t border-border py-12 px-6">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-2">
             {/* 3. CORREÇÃO: Arrumei o erro de digitação <<img e usei a variável */}
