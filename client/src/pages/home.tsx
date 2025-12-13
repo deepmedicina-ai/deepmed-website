@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-// 1. CORREÇÃO: O import da imagem deve ficar aqui fora, separado
 import logoDeepMed from '../assets/logo-icon.svg'; 
 
 import {
@@ -45,7 +44,7 @@ export default function Home() {
           <div className="flex items-center gap-2">
             {/* 2. CORREÇÃO: Usando a variável importada aqui no cabeçalho */}
             <img
-              src={logoDeepMed}
+              src="/logo-deepmed.png"
               alt="deepmed"
               className="h-8 md:h-10 w-auto"
             />
@@ -495,7 +494,7 @@ export default function Home() {
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-2">
             {/* 3. CORREÇÃO: Arrumei o erro de digitação <<img e usei a variável */}
-            <img src={logoDeepMed} alt="DeepMed" className="h-8 w-auto" />
+            <img src="/logo-deepmed.png" alt="deepmed" className="h-6 md:h-8 w-auto" />
           </div>
           <div className="flex gap-6 text-sm text-muted-foreground">
             <a href="#" className="hover:text-primary transition-colors">
