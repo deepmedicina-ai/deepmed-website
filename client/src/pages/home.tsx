@@ -209,43 +209,7 @@ export default function Home() {
               </a>
             </div>
           </motion.div>
-          </div> {/* Fim da div dos botões */}
 
-          {/* YouTube Card */}
-          <div className="mt-8 bg-card border border-border rounded-2xl p-6 shadow-lg">
-            <div className="flex flex-col sm:flex-row gap-6 items-center">
-              <div className="flex-1">
-                <span className="text-primary font-bold tracking-wider uppercase text-xs mb-2 block">
-                  Conteúdo Visual
-                </span>
-                <h3 className="text-xl md:text-2xl font-bold font-heading mb-2">
-                  Assista no YouTube
-                </h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Aulas dinâmicas e explicações detalhadas
-                </p>
-                <a 
-                  href="https://youtube.com/playlist?list=PLqTPT03W8PfgjOxwm4kKm94lQMoKWNGLI&si=eQBHBdKegD1zwjJK"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#FF0000] text-white font-bold text-sm hover:opacity-90 transition-all hover:scale-105"
-                >
-                  <Youtube fill="currentColor" size={18} />
-                  Inscrever-se
-                </a>
-              </div>
-              <div className="w-full sm:w-48 h-32 rounded-xl overflow-hidden border border-border">
-                <iframe 
-                  width="100%" 
-                  height="100%"
-                  src="https://www.youtube.com/embed/videoseries?si=D_t8_GHUehZdLp4J&list=PLqTPT03W8PfgjOxwm4kKm94lQMoKWNGLI" 
-                  frameBorder="0" 
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                  allowFullScreen
-                ></iframe>
-              </div>
-            </div>
-          </div>
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -456,6 +420,48 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* YouTube Section */}
+      <section className="py-24 px-6 bg-background">
+        <div className="container mx-auto max-w-5xl">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="order-2 md:order-1">
+              <div className="rounded-2xl overflow-hidden shadow-2xl border border-border">
+                <iframe
+                  width="100%"
+                  style={{ aspectRatio: "16/9" }}
+                  src="https://www.youtube.com/embed/videoseries?si=D_t8_GHUehZdLp4J&list=PLqTPT03W8PfgjOxwm4kKm94lQMoKWNGLI"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </div>
+            <div className="order-1 md:order-2">
+              <span className="text-primary font-bold tracking-wider uppercase text-sm mb-4 block">
+                Conteúdo Visual
+              </span>
+              <h2 className="text-3xl md:text-5xl font-bold font-heading mb-6">
+                Assista no YouTube
+              </h2>
+              <p className="text-xl text-muted-foreground leading-relaxed mb-8">
+                Conteúdo visual completo para complementar seu aprendizado, com
+                aulas dinâmicas e explicações detalhadas.
+              </p>
+              <a
+                href="https://youtube.com/playlist?list=PLqTPT03W8PfgjOxwm4kKm94lQMoKWNGLI&si=eQBHBdKegD1zwjJK"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-[#FF0000] text-white font-bold text-lg hover:opacity-90 transition-all hover:scale-105 shadow-xl shadow-[#FF0000]/20"
+              >
+                <Youtube fill="currentColor" size={20} />
+                Inscrever-se no Canal
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-24 px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-primary/10 -skew-y-3 transform origin-left scale-110" />
