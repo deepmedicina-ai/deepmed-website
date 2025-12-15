@@ -6,10 +6,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const files = [
   'apple-touch-icon.png',
-  'favicon.png', 
+  'favicon.png',
   'logo-deepmed.png',
   'og-image.png',
-  'opengraph.jpg'
+  'opengraph.jpg',
+  'manifest.json',
+  'sw.js'
 ];
 
 const publicDir = join(__dirname, 'client', 'public');
