@@ -63,6 +63,11 @@ export default function Home() {
             >
               Funcionalidades
             </a>
+            <Link href="/matriz-curricular">
+              <a className="text-sm font-medium hover:text-primary transition-colors">
+                Matriz Curricular
+              </a>
+            </Link>
             <a
               href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867"
               target="_blank"
@@ -128,6 +133,14 @@ export default function Home() {
             >
               Funcionalidades
             </a>
+            <Link href="/matriz-curricular">
+              <a
+                className="text-lg font-medium"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Matriz Curricular
+              </a>
+            </Link>
             <a
               href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867"
               target="_blank"
