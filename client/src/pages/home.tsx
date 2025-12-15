@@ -41,12 +41,13 @@ export default function Home() {
       <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            {/* 2. CORREÇÃO: Usando a variável importada aqui no cabeçalho */}
-            <img
-              src="/logo-deepmed.png"
-              alt="deepmed"
-              className="h-8 md:h-10 w-auto"
-            />
+            <a href="#" className="flex items-center">
+              <img
+                src="/logo-deepmed.png"
+                alt="deepmed"
+                className="h-8 md:h-10 w-auto cursor-pointer hover:opacity-80 transition-opacity"
+              />
+            </a>
           </div>
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
@@ -63,7 +64,9 @@ export default function Home() {
               Funcionalidades
             </a>
             <a
-              href="#episodes"
+              href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-sm font-medium hover:text-primary transition-colors"
             >
               Episódios
@@ -126,7 +129,9 @@ export default function Home() {
               Funcionalidades
             </a>
             <a
-              href="#episodes"
+              href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-lg font-medium"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -494,8 +499,9 @@ export default function Home() {
       <footer className="bg-background border-t border-border py-12 px-6">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-2">
-            {/* 3. CORREÇÃO: Arrumei o erro de digitação <<img e usei a variável */}
-            <img src="/logo-deepmed.png" alt="deepmed" className="h-6 md:h-8 w-auto" />
+            <a href="#" className="flex items-center">
+              <img src="/logo-deepmed.png" alt="deepmed" className="h-6 md:h-8 w-auto cursor-pointer hover:opacity-80 transition-opacity" />
+            </a>
           </div>
           <div className="flex gap-6 text-sm text-muted-foreground">
             <a href="#" className="hover:text-primary transition-colors">
