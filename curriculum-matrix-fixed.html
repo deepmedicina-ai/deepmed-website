@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matriz Curricular Medicina - UNIVERSO</title>
+    <!-- React e ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel para transpilar JSX no navegador -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useMemo } = React;
+
+        // Componentes de Ícones SVG
+        const Icon = ({ children, size = 24, className = "" }) => (
+            <svg
+                width={size}
+                height={size}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={className}
+            >
+                {children}
+            </svg>
+        );
+
+        const Search = (props) => (
+            <Icon {...props}>
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+            </Icon>
+        );
+
+        const BookOpen = (props) => (
+            <Icon {...props}>
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </Icon>
+        );
+
+        const Clock = (props) => (
+            <Icon {...props}>
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+            </Icon>
+        );
+
+        const Calendar = (props) => (
+            <Icon {...props}>
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+            </Icon>
+        );
+
+        const X = (props) => (
+            <Icon {...props}>
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </Icon>
+        );
+
+        const GraduationCap = (props) => (
+            <Icon {...props}>
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </Icon>
+        );
+
+        const Activity = (props) => (
+            <Icon {...props}>
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </Icon>
+        );
+
+        const Users = (props) => (
+            <Icon {...props}>
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </Icon>
+        );
+
+        const Globe = (props) => (
+            <Icon {...props}>
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </Icon>
+        );
+
+        const Brain = (props) => (
+            <Icon {...props}>
+                <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/>
+                <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/>
+            </Icon>
+        );
+
+        const HeartPulse = (props) => (
+            <Icon {...props}>
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                <path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/>
+            </Icon>
+        );
+
+        // Dados extraídos fielmente do PDF "Ementa-MED.pdf"
+        const curriculumData = [
+            {
+                period: 1,
+                title: "1º Período",
+                subjects: [
+                    { code: "M001", name: "Habilidades e Atitudes Profissionais I", chTotal: 80, chTeorica: 20, chPratica: 60, type: "Obrigatória", desc: "Introdução ao Desenvolvimento Acadêmico e Científico. Profissionalismo Médico. Seminário como método de Estudo. Habilidades de Comunicação Oral. Primeiros socorros e Basic Life Support (AHA)." },
+                    { code: "M002", name: "Ações Integrais em Saúde: Ensino, Serviço e Comunidade I", chTotal: 100, chTeorica: 40, chPratica: 60, type: "Obrigatória", desc: "Organização da Atenção Primária à Saúde. Diagnóstico de Saúde da Comunidade. Antropologia em Saúde. Relações Étnico-Raciais. Prática de Campo." },
+                    { code: "M003", name: "Bases Moleculares dos Seres Vivos", chTotal: 80, chTeorica: 60, chPratica: 20, type: "Obrigatória", desc: "Estrutura e função de macromoléculas (proteínas, carboidratos, lipídeos, DNA). Metabolismo e atividade enzimática. Biossinalização e Radiobiologia." },
+                    { code: "M004", name: "Biologia do Desenvolvimento", chTotal: 80, chTeorica: 40, chPratica: 40, type: "Obrigatória", desc: "Embriologia, Citologia e Histologia. Gametogênese, Fertilização, Clivagem. Tecido Epitelial e Conjuntivo. Organogênese e Teratogenia." },
+                    { code: "M005", name: "Integração de Sistemas Humanos I (Musculoesquelético)", chTotal: 120, chTeorica: 60, chPratica: 60, type: "Obrigatória", desc: "Anatomia, Histologia e Embriologia do sistema musculoesquelético. Fisiologia da contração muscular. Farmacologia neuromuscular." },
+                    { code: "M006", name: "Formação Cidadã I", chTotal: 40, chTeorica: 40, chPratica: 0, type: "Obrigatória", desc: "Bioética, Deontologia e Direitos Humanos. Código de Ética Médica. Relação médico-paciente." },
+                    { code: "M043", name: "Atividades Curriculares de Extensão I", chTotal: 100, type: "Extensão", desc: "Relações socioambientais e o processo saúde-doença. Projeto de intervenção em comunidade." }
+                ]
+            },
+            {
+                period: 2,
+                title: "2º Período",
+                subjects: [
+                    { code: "M007", name: "Habilidades e Atitudes Profissionais II", chTotal: 80, chTeorica: 20, chPratica: 60, type: "Obrigatória", desc: "Comunicação e Relação Médico-Paciente. Ciclo da Vida. Anamnese e Exame Físico Geral (Ectoscopia)." },
+                    { code: "M008", name: "Ações Integrais em Saúde II", chTotal: 100, chTeorica: 40, chPratica: 60, type: "Obrigatória", desc: "Políticas de Saúde e SUS. Medicina de Família. Vigilância em Saúde. Promoção da Saúde." },
+                    { code: "M009", name: "Mecanismos de Agressão e Defesa", chTotal: 120, chTeorica: 80, chPratica: 40, type: "Obrigatória", desc: "Microbiologia (Bacteriologia, Virologia, Micologia), Parasitologia e Imunologia básica. Mecanismos de defesa do hospedeiro." },
+                    { code: "M010", name: "Integração de Sistemas Humanos II (Tegumentar)", chTotal: 120, chTeorica: 60, chPratica: 60, type: "Obrigatória", desc: "Anatomia, Histologia e Fisiologia da pele e anexos. Patologias dermatológicas básicas. Farmacologia dermatológica." },
+                    { code: "M011", name: "Integração de Sistemas Humanos III (Nervoso)", chTotal: 120, chTeorica: 60, chPratica: 60, type: "Obrigatória", desc: "Neuroanatomia, Neurofisiologia e Neurohistologia. Farmacologia do SNC e SNA. Raciocínio clínico neurológico." },
+                    { code: "M012", name: "Formação Cidadã II", chTotal: 40, chTeorica: 40, chPratica: 0, type: "Obrigatória", desc: "Relações de Diversidade de Gênero, Relações Étnico-raciais, Cultura Afro-brasileira e Indígena." },
+                    { code: "M044", name: "Extensão II", chTotal: 100, type: "Extensão", desc: "Visitas a comunidades quilombolas, identificação de fatores de risco e propostas de solução." }
+                ]
+            },
+            {
+                period: 3,
+                title: "3º Período",
+                subjects: [
+                    { code: "M013", name: "Habilidades e Atitudes Profissionais III", chTotal: 80, chTeorica: 20, chPratica: 60, type: "Obrigatória", desc: "Metodologia Científica. Projeto de Pesquisa. Bioética na pesquisa. Medicina Baseada em Evidências inicial." },
+                    { code: "M014", name: "Ações Integrais em Saúde III", chTotal: 100, chTeorica: 40, chPratica: 60, type: "Obrigatória", desc: "Saúde do Idoso na APS. Imunizações. Vigilância epidemiológica. Doenças de notificação compulsória." },
+                    { code: "M015", name: "Integração de Sistemas Humanos IV (Reprodutor)", chTotal: 120, chTeorica: 60, chPratica: 60, type: "Obrigatória", desc: "Anatomia e Fisiologia dos sistemas reprodutores masculino e feminino. Ciclo menstrual, gestação e parto. Métodos contraceptivos." },
+                    { code: "M016", name: "Integração de Sistemas Humanos V (Urinário)", chTotal: 120, chTeorica: 60, chPratica: 60, type: "Obrigatória", desc: "Anatomia e Fisiologia renal. Filtração glomerular, equilíbrio hidroeletrolítico e ácido-base. Fisiopatologia renal." },
+                    { code: "M017", name: "Formação Cidadã III", chTotal: 40, chTeorica: 40, chPratica: 0, type: "Obrigatória", desc: "Direito Ambiental, Sustentabilidade e Acessibilidade." },
+                    { code: "M045", name: "Extensão III", chTotal: 100, type: "Extensão", desc: "Saúde da Mulher e do Homem. Acessibilidade e inclusão." }
+                ]
+            },
+            {
+                period: 4,
+                title: "4º Período",
+                subjects: [
+                    { code: "M018", name: "Habilidades e Atitudes Profissionais IV", chTotal: 80, chTeorica: 20, chPratica: 60, type: "Obrigatória", desc: "Semiologia Médica avançada. Exame físico dos sistemas musculoesquelético, tegumentar e genito-urinário." },
+                    { code: "M019", name: "Ações Integrais em Saúde IV", chTotal: 100, chTeorica: 40, chPratica: 60, type: "Obrigatória", desc: "Método Clínico Centrado na Pessoa. Abordagem Familiar e Comunitária. Ferramentas de Medicina de Família (SOAP, CIAP)." },
+                    { code: "M020", name: "Integração de Sistemas Humanos VI (Endócrino)", chTotal: 120, chTeorica: 60, chPratica: 60, type: "Obrigatória", desc: "Fisiologia e Patologia das glândulas endócrinas (Tireoide, Adrenal, Pâncreas). Diabetes e Obesidade." },
+                    { code: "M021", name: "Integração de Sistemas Humanos VII (Hematopoiético)", chTotal: 120, chTeorica: 60, chPratica: 60, type: "Obrigatória", desc: "Hematologia. Anemias, leucemias, coagulação. Imuno-hematologia." },
+                    { code: "M022", name: "Integração de Sistemas Humanos VIII (Digestório)", chTotal: 120, chTeorica: 60, chPratica: 60, type: "Obrigatória", desc: "Gastroenterologia. Anatomia e Fisiologia do TGI. Digestão e absorção. Farmacologia do TGI." },
+                    { code: "M023", name: "Empreendedorismo e Inovação em Saúde", chTotal: 40, type: "Obrigatória", desc: "Gestão, Liderança e Planejamento em Saúde." },
+                    { code: "M046", name: "Extensão IV", chTotal: 100, type: "Extensão", desc: "Gestão de serviços em saúde e solução de problemas institucionais." }
+                ]
+            },
+            {
+                period: 5,
+                title: "5º Período",
+                subjects: [
+                    { code: "M024", name: "Habilidades e Atitudes Profissionais V", chTotal: 120, chTeorica: 60, chPratica: 60, type: "Obrigatória", desc: "Semiologia do tórax, abdome e neurológica. Raciocínio clínico e discussão de casos." },
+                    { code: "M025", name: "Ações Integrais em Saúde V", chTotal: 100, chTeorica: 40, chPratica: 60, type: "Obrigatória", desc: "Saúde da Criança na APS. Puericultura, Crescimento e Desenvolvimento, AIDPI." },
+                    { code: "M026", name: "Integração de Sistemas Humanos IX (Cardiovascular)", chTotal: 120, chTeorica: 60, chPratica: 60, type: "Obrigatória", desc: "Cardiologia. Anatomia e Fisiologia cardíaca. ECG básico. Hipertensão, Insuficiência Cardíaca." },
+                    { code: "M027", name: "Integração de Sistemas Humanos X (Respiratório)", chTotal: 120, chTeorica: 60, chPratica: 60, type: "Obrigatória", desc: "Pneumologia. Mecânica ventilatória, trocas gasosas. Doenças restritivas e obstrutivas." },
+                    { code: "M047", name: "Extensão V", chTotal: 100, type: "Extensão", desc: "Educação em saúde voltada ao estilo de vida e prevenção de doenças crônicas." }
+                ]
+            },
+            {
+                period: 6,
+                title: "6º Período",
+                subjects: [
+                    { code: "M028", name: "Habilidades e Atitudes Profissionais VI", chTotal: 120, chTeorica: 20, chPratica: 100, type: "Obrigatória", desc: "Técnica Cirúrgica e Anestesiologia. Suturas, paramentação, sala cirúrgica. Suporte ao trauma." },
+                    { code: "M029", name: "Ações Integrais em Saúde VI", chTotal: 100, chTeorica: 40, chPratica: 60, type: "Obrigatória", desc: "Saúde da Mulher na APS. Pré-natal de baixo risco, rastreamento de câncer de colo e mama." },
+                    { code: "M030", name: "Saúde da Criança", chTotal: 120, chTeorica: 40, chPratica: 80, type: "Obrigatória", desc: "Pediatria Clínica. Doenças prevalentes na infância, emergências pediátricas." },
+                    { code: "M031", name: "Saúde da Mulher", chTotal: 120, chTeorica: 40, chPratica: 80, type: "Obrigatória", desc: "Ginecologia e Obstetrícia especializada. Patologias ginecológicas, parto e puerpério patológico." },
+                    { code: "M048", name: "Extensão VI", chTotal: 100, type: "Extensão", desc: "Ações sociais com gestantes e crianças em comunidades vulneráveis." },
+                    { code: "OPT", name: "Optativa I", chTotal: 40, type: "Optativa", desc: "Disciplina de livre escolha (Ver lista de Optativas)." }
+                ]
+            },
+            {
+                period: 7,
+                title: "7º Período",
+                subjects: [
+                    { code: "M032", name: "Habilidades e Atitudes Profissionais VII", chTotal: 120, chTeorica: 20, chPratica: 100, type: "Obrigatória", desc: "Clínica Médica I. Raciocínio clínico em síndromes comuns (febre, dor, emagrecimento)." },
+                    { code: "M033", name: "Ações Integrais em Saúde VII", chTotal: 100, chTeorica: 40, chPratica: 60, type: "Obrigatória", desc: "Saúde do Adulto na APS. Doenças Crônicas Não Transmissíveis (HAS, Diabetes) na atenção primária." },
+                    { code: "M034", name: "Saúde do Adulto", chTotal: 120, chTeorica: 40, chPratica: 80, type: "Obrigatória", desc: "Clínica Médica II. Cardiologia, Pneumologia, Nefrologia e Neurologia clínica." },
+                    { code: "M035", name: "Saúde da Pessoa Idosa", chTotal: 120, chTeorica: 40, chPratica: 80, type: "Obrigatória", desc: "Geriatria. Grandes síndromes geriátricas, demências, quedas, polifarmácia." },
+                    { code: "M036", name: "Metodologia Científica e MBE", chTotal: 40, type: "Obrigatória", desc: "Revisão sistemática, leitura crítica de artigos e produção científica." },
+                    { code: "M049", name: "Extensão VII", chTotal: 80, type: "Extensão", desc: "Atenção à saúde do idoso e impacto do envelhecimento." },
+                    { code: "OPT", name: "Optativa II", chTotal: 40, type: "Optativa", desc: "Disciplina de livre escolha." }
+                ]
+            },
+            {
+                period: 8,
+                title: "8º Período",
+                subjects: [
+                    { code: "M037", name: "Habilidades e Atitudes Profissionais VIII", chTotal: 120, chTeorica: 20, chPratica: 100, type: "Obrigatória", desc: "Urgência e Emergência. Suporte avançado de vida, trauma, PHTLS." },
+                    { code: "M038", name: "Ações Integrais em Saúde VIII", chTotal: 100, chTeorica: 40, chPratica: 60, type: "Obrigatória", desc: "Saúde do Trabalhador e Saúde Ambiental." },
+                    { code: "M039", name: "Saúde Mental", chTotal: 120, chTeorica: 40, chPratica: 80, type: "Obrigatória", desc: "Psiquiatria. Psicopatologia, transtornos mentais comuns e graves, psicofarmacologia." },
+                    { code: "M040", name: "Cuidados Paliativos", chTotal: 100, chTeorica: 40, chPratica: 60, type: "Obrigatória", desc: "Controle de sintomas, comunicação de más notícias, fim de vida, luto." },
+                    { code: "M041", name: "Epidemiologia e Análise de Dados", chTotal: 80, type: "Obrigatória", desc: "Bioestatística, estudos epidemiológicos e análise de dados em saúde." },
+                    { code: "M042", name: "Psicologia Médica", chTotal: 40, type: "Obrigatória", desc: "Aspectos psicológicos da relação médico-paciente e do adoecimento." },
+                    { code: "M050", name: "Extensão VIII", chTotal: 80, type: "Extensão", desc: "Saúde mental e dependência química na comunidade." }
+                ]
+            },
+            {
+                period: 9,
+                title: "9º Período (Internato)",
+                subjects: [
+                    { code: "M051", name: "Internato em Saúde da Criança I (Neonatologia)", chTotal: 240, type: "Internato", desc: "Prática intensiva em Neonatologia, sala de parto, alojamento conjunto e UTI Neonatal. 48h na Atenção Básica." },
+                    { code: "M052", name: "Internato em Saúde do Adulto I (Clínica)", chTotal: 240, type: "Internato", desc: "Prática em Enfermarias de Clínica Médica. Diagnóstico e terapêutica de patologias clínicas. 48h na Atenção Básica." },
+                    { code: "M053", name: "Internato em Saúde da Mulher I (Obstetrícia)", chTotal: 240, type: "Internato", desc: "Prática em Maternidade. Centro Obstétrico, parto normal e cesárea, puerpério. 48h na Atenção Básica." }
+                ]
+            },
+            {
+                period: 10,
+                title: "10º Período (Internato)",
+                subjects: [
+                    { code: "M054", name: "Internato em Urgência e Emergência Pré-hospitalar", chTotal: 240, type: "Internato", desc: "Atendimento pré-hospitalar móvel (SAMU) e fixo (UPA)." },
+                    { code: "M055", name: "Internato em Urgência e Emergência Hospitalar", chTotal: 240, type: "Internato", desc: "Prática em Pronto Socorro Hospitalar. Trauma e emergências clínicas." },
+                    { code: "M056", name: "Internato em Saúde da Família e Comunidade I", chTotal: 240, type: "Internato", desc: "Imersão na Estratégia de Saúde da Família (ESF). Visitas domiciliares, grupos operativos." }
+                ]
+            },
+            {
+                period: 11,
+                title: "11º Período (Internato)",
+                subjects: [
+                    { code: "M057", name: "Internato em Saúde da Criança II (Pediatria)", chTotal: 240, type: "Internato", desc: "Prática em Enfermarias de Pediatria e Emergência Pediátrica." },
+                    { code: "M058", name: "Internato em Saúde do Adulto II (Cirurgia)", chTotal: 240, type: "Internato", desc: "Prática em Clínica Cirúrgica. Centro cirúrgico, pré e pós-operatório." },
+                    { code: "M059", name: "Internato em Saúde da Mulher II (Ginecologia)", chTotal: 240, type: "Internato", desc: "Prática ambulatorial e cirúrgica em Ginecologia. Rastreamento e tratamento." }
+                ]
+            },
+            {
+                period: 12,
+                title: "12º Período (Internato)",
+                subjects: [
+                    { code: "M060", name: "Internato em Saúde da Pessoa Idosa", chTotal: 120, type: "Internato", desc: "Prática em Geriatria, ILPIs e ambulatórios especializados." },
+                    { code: "M061", name: "Internato em Saúde Mental", chTotal: 120, type: "Internato", desc: "Prática em CAPS e emergências psiquiátricas." },
+                    { code: "M062", name: "Internato em Saúde da Família e Comunidade II", chTotal: 240, type: "Internato", desc: "Consolidação da prática na Atenção Primária e Saúde Coletiva." },
+                    { code: "OPT", name: "Internato Optativo", chTotal: 240, type: "Internato", desc: "Estágio em área de livre escolha do aluno." },
+                    { code: "M063", name: "Trabalho de Conclusão de Curso", chTotal: 80, type: "Obrigatória", desc: "Elaboração e defesa do TCC." }
+                ]
+            }
+        ];
+
+        const optativasList = [
+            { name: "Libras", code: "M074" }, { name: "Diagnóstico por Imagem", code: "M064" },
+            { name: "ECG", code: "M066" }, { name: "Farmacologia Clínica", code: "M068" },
+            { name: "Medicina Legal", code: "M073" }, { name: "Telemedicina", code: "M072" },
+            { name: "Gestão de Pessoas", code: "M075" }, { name: "Inglês Instrumental", code: "M083" }
+        ];
+
+        function App() {
+            const [selectedPeriod, setSelectedPeriod] = useState('all');
+            const [searchTerm, setSearchTerm] = useState('');
+            const [selectedSubject, setSelectedSubject] = useState(null);
+
+            const filteredData = useMemo(() => {
+                return curriculumData.filter(period => {
+                    if (selectedPeriod === 'all') return true;
+                    if (selectedPeriod === 'ciclo-basico') return period.period <= 4;
+                    if (selectedPeriod === 'ciclo-clinico') return period.period >= 5 && period.period <= 8;
+                    if (selectedPeriod === 'internato') return period.period >= 9;
+                    return period.period === selectedPeriod;
+                }).map(period => ({
+                    ...period,
+                    subjects: period.subjects.filter(sub =>
+                        sub.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        sub.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        (sub.desc && sub.desc.toLowerCase().includes(searchTerm.toLowerCase()))
+                    )
+                })).filter(period => period.subjects.length > 0);
+            }, [selectedPeriod, searchTerm]);
+
+            return (
+                <div className="min-h-screen pb-10">
+                    {/* Header */}
+                    <header className="bg-gradient-to-r from-blue-900 to-teal-700 text-white p-6 shadow-lg">
+                        <div className="max-w-6xl mx-auto">
+                            <h1 className="text-3xl font-bold flex items-center gap-3">
+                                <GraduationCap size={40} />
+                                Matriz Curricular - Medicina UNIVERSO
+                            </h1>
+                            <p className="mt-2 text-blue-100 max-w-2xl">
+                                Guia interativo baseado no Projeto Pedagógico do Curso.
+                                Explore as disciplinas, cargas horárias e ementas dos 12 períodos.
+                            </p>
+                            <div className="mt-4 flex flex-wrap gap-4 text-sm font-medium">
+                                <span className="bg-white/20 px-3 py-1 rounded-full flex items-center gap-2">
+                                    <Clock size={16} /> Total: 7.523h
+                                </span>
+                                <span className="bg-white/20 px-3 py-1 rounded-full flex items-center gap-2">
+                                    <Calendar size={16} /> 6 Anos
+                                </span>
+                                <span className="bg-white/20 px-3 py-1 rounded-full flex items-center gap-2">
+                                    <Users size={16} /> Integração Ensino-Serviço
+                                </span>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Controls */}
+                    <div className="max-w-6xl mx-auto p-4 sticky top-0 bg-[#f8fafc]/95 backdrop-blur z-10 border-b border-slate-200">
+                        <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
+
+                            {/* Filter Buttons */}
+                            <div className="flex gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-hide">
+                                <button
+                                    onClick={() => setSelectedPeriod('all')}
+                                    className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${selectedPeriod === 'all' ? 'bg-blue-600 text-white' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}`}
+                                >
+                                    Todos
+                                </button>
+                                <button
+                                    onClick={() => setSelectedPeriod('ciclo-basico')}
+                                    className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${selectedPeriod === 'ciclo-basico' ? 'bg-teal-600 text-white' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}`}
+                                >
+                                    Ciclo Básico (1º-4º)
+                                </button>
+                                <button
+                                    onClick={() => setSelectedPeriod('ciclo-clinico')}
+                                    className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${selectedPeriod === 'ciclo-clinico' ? 'bg-indigo-600 text-white' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}`}
+                                >
+                                    Ciclo Clínico (5º-8º)
+                                </button>
+                                <button
+                                    onClick={() => setSelectedPeriod('internato')}
+                                    className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${selectedPeriod === 'internato' ? 'bg-rose-600 text-white' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}`}
+                                >
+                                    Internato (9º-12º)
+                                </button>
+                            </div>
+
+                            {/* Search */}
+                            <div className="relative w-full md:w-64">
+                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" size={16} />
+                                <input
+                                    type="text"
+                                    placeholder="Buscar disciplina..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Content Grid */}
+                    <div className="max-w-6xl mx-auto p-4 space-y-8">
+                        {filteredData.map((period) => (
+                            <div key={period.period} className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                                <div className={`p-4 border-b border-slate-100 flex items-center justify-between
+                                    ${period.period <= 4 ? 'bg-teal-50' : period.period <= 8 ? 'bg-indigo-50' : 'bg-rose-50'}
+                                `}>
+                                    <h2 className={`text-lg font-bold
+                                        ${period.period <= 4 ? 'text-teal-800' : period.period <= 8 ? 'text-indigo-800' : 'text-rose-800'}
+                                    `}>
+                                        {period.title}
+                                    </h2>
+                                    <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                                        {period.subjects.length} Disciplinas
+                                    </span>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+                                    {period.subjects.map((subject) => (
+                                        <div
+                                            key={subject.code}
+                                            onClick={() => setSelectedSubject(subject)}
+                                            className="group cursor-pointer bg-slate-50 hover:bg-white border border-slate-200 hover:border-blue-300 rounded-lg p-4 transition-all duration-200 hover:shadow-md"
+                                        >
+                                            <div className="flex justify-between items-start mb-2">
+                                                <span className="text-xs font-mono bg-slate-200 text-slate-600 px-2 py-0.5 rounded">
+                                                    {subject.code}
+                                                </span>
+                                                {subject.type === 'Extensão' && <Globe size={16} className="text-green-600" />}
+                                                {subject.type === 'Internato' && <HeartPulse size={16} className="text-rose-600" />}
+                                            </div>
+                                            <h3 className="font-semibold text-slate-800 mb-2 leading-tight group-hover:text-blue-700">
+                                                {subject.name}
+                                            </h3>
+                                            <div className="flex items-center gap-3 text-xs text-slate-500 mt-3">
+                                                <span className="flex items-center gap-1">
+                                                    <Clock size={14} /> {subject.chTotal}h
+                                                </span>
+                                                {subject.chPratica > 0 && (
+                                                    <span className="flex items-center gap-1 text-teal-600">
+                                                        <Activity size={14} /> Prática
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+
+                        {filteredData.length === 0 && (
+                            <div className="text-center py-20 text-slate-400">
+                                <BookOpen size={64} className="mx-auto mb-4 opacity-20" />
+                                <p>Nenhuma disciplina encontrada para esta busca.</p>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Optativas Footer */}
+                    <div className="max-w-6xl mx-auto p-4">
+                        <div className="bg-slate-800 text-slate-300 rounded-xl p-6">
+                            <h3 className="text-white font-bold text-lg mb-4 flex items-center gap-2">
+                                <Brain size={20} /> Disciplinas Optativas (Exemplos)
+                            </h3>
+                            <div className="flex flex-wrap gap-2">
+                                {optativasList.map(opt => (
+                                    <span key={opt.code} className="bg-slate-700 px-3 py-1 rounded-full text-sm border border-slate-600">
+                                        {opt.name}
+                                    </span>
+                                ))}
+                            </div>
+                            <p className="mt-4 text-xs text-slate-400 italic">
+                                *A oferta de optativas pode variar por semestre conforme disponibilidade institucional.
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Modal */}
+                    {selectedSubject && (
+                        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setSelectedSubject(null)}>
+                            <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+                                <div className="p-6 border-b border-slate-100 flex justify-between items-start sticky top-0 bg-white z-10">
+                                    <div>
+                                        <span className="text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+                                            {selectedSubject.code}
+                                        </span>
+                                        <h2 className="text-2xl font-bold text-slate-900 mt-2">{selectedSubject.name}</h2>
+                                    </div>
+                                    <button onClick={() => setSelectedSubject(null)} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
+                                        <X className="text-slate-500" />
+                                    </button>
+                                </div>
+
+                                <div className="p-6 space-y-6">
+                                    {/* Cargas Horárias */}
+                                    <div className="grid grid-cols-3 gap-4">
+                                        <div className="bg-slate-50 p-3 rounded-lg border border-slate-200 text-center">
+                                            <div className="text-xs text-slate-500 uppercase font-bold mb-1">Total</div>
+                                            <div className="text-xl font-bold text-slate-800">{selectedSubject.chTotal}h</div>
+                                        </div>
+                                        {selectedSubject.chTeorica !== undefined && (
+                                            <div className="bg-blue-50 p-3 rounded-lg border border-blue-100 text-center">
+                                                <div className="text-xs text-blue-600 uppercase font-bold mb-1">Teórica</div>
+                                                <div className="text-xl font-bold text-blue-900">{selectedSubject.chTeorica}h</div>
+                                            </div>
+                                        )}
+                                        {selectedSubject.chPratica !== undefined && (
+                                            <div className="bg-teal-50 p-3 rounded-lg border border-teal-100 text-center">
+                                                <div className="text-xs text-teal-600 uppercase font-bold mb-1">Prática</div>
+                                                <div className="text-xl font-bold text-teal-900">{selectedSubject.chPratica}h</div>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Ementa */}
+                                    {selectedSubject.desc && (
+                                        <div>
+                                            <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wide mb-3 flex items-center gap-2">
+                                                <BookOpen size={16} /> Ementa / Conteúdo Programático
+                                            </h3>
+                                            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-slate-700 leading-relaxed text-sm">
+                                                {selectedSubject.desc}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Footer Info */}
+                                    <div className="text-xs text-slate-400 border-t pt-4">
+                                        Fonte: Projeto Pedagógico de Curso Medicina - UNIVERSO.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
