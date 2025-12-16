@@ -21,6 +21,12 @@ import {
   Activity,
   Award,
   GraduationCap,
+  Smartphone,
+  Share,
+  MoreVertical,
+  Zap,
+  Maximize2,
+  HardDrive,
 } from "lucide-react";
 import heroImage from "@assets/generated_images/abstract_medical_sound_wave_with_digital_tech_aesthetic.png";
 
@@ -478,6 +484,118 @@ export default function Home() {
                 <Youtube fill="currentColor" size={20} />
                 Inscrever-se no Canal
               </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PWA Install Section */}
+      <section className="py-20 px-6 bg-muted/30" id="instalar-app">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <span className="text-primary font-bold tracking-wider uppercase text-sm mb-4 block">
+              Acesso Rápido
+            </span>
+            <h2 className="text-3xl md:text-5xl font-bold font-heading mb-4">
+              Instale nosso App no celular
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Sem precisar baixar nada na loja. Adicione o atalho direto na sua tela inicial!
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            {/* iPhone */}
+            <div className="bg-card border border-border rounded-2xl p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
+                  <Smartphone className="text-white" size={24} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold">iPhone (iOS)</h3>
+                  <p className="text-sm text-muted-foreground">Use o navegador Safari</p>
+                </div>
+              </div>
+              <ol className="space-y-4">
+                <li className="flex gap-3">
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/10 text-primary font-bold text-sm flex items-center justify-center">1</span>
+                  <span className="text-muted-foreground">Acesse o site pelo <strong className="text-foreground">Safari</strong></span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/10 text-primary font-bold text-sm flex items-center justify-center">2</span>
+                  <span className="text-muted-foreground">Toque no ícone <Share className="inline w-4 h-4 text-primary" /> <strong className="text-foreground">Compartilhar</strong> na barra inferior</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/10 text-primary font-bold text-sm flex items-center justify-center">3</span>
+                  <span className="text-muted-foreground">Role e toque em <strong className="text-foreground">"Adicionar à Tela de Início"</strong></span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/10 text-primary font-bold text-sm flex items-center justify-center">4</span>
+                  <span className="text-muted-foreground">Confirme tocando em <strong className="text-foreground">"Adicionar"</strong></span>
+                </li>
+              </ol>
+            </div>
+
+            {/* Android */}
+            <div className="bg-card border border-border rounded-2xl p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center">
+                  <Smartphone className="text-white" size={24} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold">Android</h3>
+                  <p className="text-sm text-muted-foreground">Use o navegador Chrome</p>
+                </div>
+              </div>
+              <ol className="space-y-4">
+                <li className="flex gap-3">
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/10 text-primary font-bold text-sm flex items-center justify-center">1</span>
+                  <span className="text-muted-foreground">Acesse o site pelo <strong className="text-foreground">Chrome</strong></span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/10 text-primary font-bold text-sm flex items-center justify-center">2</span>
+                  <span className="text-muted-foreground">Toque no ícone <MoreVertical className="inline w-4 h-4 text-primary" /> <strong className="text-foreground">Menu</strong> (3 pontinhos)</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/10 text-primary font-bold text-sm flex items-center justify-center">3</span>
+                  <span className="text-muted-foreground">Selecione <strong className="text-foreground">"Adicionar à tela inicial"</strong> ou <strong className="text-foreground">"Instalar"</strong></span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="flex-shrink-0 w-7 h-7 rounded-full bg-primary/10 text-primary font-bold text-sm flex items-center justify-center">4</span>
+                  <span className="text-muted-foreground">Confirme tocando em <strong className="text-foreground">"Instalar"</strong></span>
+                </li>
+              </ol>
+            </div>
+          </div>
+
+          {/* Benefits */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="flex items-center gap-4 bg-card border border-border rounded-xl p-5">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Zap className="text-primary" size={20} />
+              </div>
+              <div>
+                <h4 className="font-bold">Acesso Rápido</h4>
+                <p className="text-sm text-muted-foreground">Entre com apenas um toque</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 bg-card border border-border rounded-xl p-5">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Maximize2 className="text-primary" size={20} />
+              </div>
+              <div>
+                <h4 className="font-bold">Tela Cheia</h4>
+                <p className="text-sm text-muted-foreground">Navegue sem distrações</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 bg-card border border-border rounded-xl p-5">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <HardDrive className="text-primary" size={20} />
+              </div>
+              <div>
+                <h4 className="font-bold">Sem Ocupar Espaço</h4>
+                <p className="text-sm text-muted-foreground">Não consome memória do celular</p>
+              </div>
             </div>
           </div>
         </div>
