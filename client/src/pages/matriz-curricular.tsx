@@ -197,10 +197,8 @@ export default function MatrizCurricular() {
           <header className="bg-background/80 backdrop-blur-md border-b border-border p-6 sticky top-0 z-20">
               <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
                   <div className="flex items-center gap-4">
-                        <Link href="/">
-                            <a className="p-2 rounded-full hover:bg-muted transition-colors">
-                                <ArrowLeft size={24} />
-                            </a>
+                        <Link href="/" className="p-2 rounded-full hover:bg-muted transition-colors inline-flex" data-testid="link-back-home">
+                            <ArrowLeft size={24} />
                         </Link>
                       <div>
                           <h1 className="text-3xl font-bold flex items-center gap-3 tracking-tight">

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { motion } from "framer-motion";
 import {
   Home,
@@ -162,10 +162,8 @@ export default function PortalAluno() {
         {/* Top Bar */}
         <div className="bg-card border-b border-border px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-3 w-full md:w-auto">
-            <Link href="/">
-              <Button variant="ghost" size="icon" data-testid="button-back-home">
-                <ArrowLeft size={20} />
-              </Button>
+            <Link href="/" className="inline-flex" data-testid="link-back-home">
+              <ArrowLeft size={20} />
             </Link>
             <h2 className="text-xl font-bold border-l-4 border-primary pl-3">
               {menuItems.find((item) => item.id === activeSection)?.label || "Bem-vindo"}
@@ -220,11 +218,9 @@ function HomeSection() {
             novo Projeto Pedagógico.
           </p>
           <div className="flex flex-wrap gap-4">
-            <Link href="/matriz-curricular">
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold" data-testid="button-view-matriz">
-                <Dna size={16} className="mr-2" />
-                Ver Matriz Curricular
-              </Button>
+            <Link href="/matriz-curricular" className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-4 py-2 rounded-md transition-colors" data-testid="link-view-matriz">
+              <Dna size={16} />
+              Ver Matriz Curricular
             </Link>
             <Button variant="outline" data-testid="button-view-calculators">
               Calculadoras
@@ -292,11 +288,9 @@ function MatrizSection() {
           <p className="text-muted-foreground mb-4">
             Para visualizar a matriz curricular completa, acesse a página dedicada:
           </p>
-          <Link href="/matriz-curricular">
-            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground" data-testid="button-go-to-matriz">
-              <Dna size={16} className="mr-2" />
-              Acessar Matriz Curricular Completa
-            </Button>
+          <Link href="/matriz-curricular" className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-md transition-colors" data-testid="link-go-to-matriz">
+            <Dna size={16} />
+            Acessar Matriz Curricular Completa
           </Link>
         </CardContent>
       </Card>
