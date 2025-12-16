@@ -20,6 +20,7 @@ import {
   User,
   Activity,
   Award,
+  GraduationCap,
 } from "lucide-react";
 import heroImage from "@assets/generated_images/abstract_medical_sound_wave_with_digital_tech_aesthetic.png";
 
@@ -63,10 +64,8 @@ export default function Home() {
             >
               Funcionalidades
             </a>
-            <Link href="/matriz-curricular">
-              <a className="text-sm font-medium hover:text-primary transition-colors">
-                Matriz Curricular
-              </a>
+            <Link href="/matriz-curricular" className="text-sm font-medium hover:text-primary transition-colors">
+              Matriz Curricular
             </Link>
             <a
               href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867"
@@ -133,13 +132,12 @@ export default function Home() {
             >
               Funcionalidades
             </a>
-            <Link href="/matriz-curricular">
-              <a
-                className="text-lg font-medium"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Matriz Curricular
-              </a>
+            <Link 
+              href="/matriz-curricular"
+              className="text-lg font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Matriz Curricular
             </Link>
             <a
               href="https://open.spotify.com/show/6D8TyR1ly2YbaTmQWKHJwv?si=b5c8478c08794867"
@@ -415,7 +413,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <FeatureCard 
               icon={<Headphones className="w-10 h-10 text-primary" />}
               title="Podcasts Exclusivos"
@@ -433,6 +431,12 @@ export default function Home() {
               title="Infográficos"
               description="Resumos visuais de alta qualidade para consultas rápidas no dia a dia."
               link="https://drive.google.com/drive/folders/1YhQbzt0bCNph7dO5iiC5IdWTMuLVthI8?usp=sharing"
+            />
+            <FeatureCard
+              icon={<GraduationCap className="w-10 h-10 text-primary" />}
+              title="Portal do Aluno"
+              description="Acesso à matriz curricular, calculadoras e ferramentas acadêmicas do curso de Medicina."
+              internalLink="/portal-aluno"
             />
           </div>
         </div>
@@ -568,11 +572,13 @@ function FeatureCard({
   title,
   description,
   link,
+  internalLink,
 }: {
   icon: React.ReactNode;
   title: string;
   description: string;
   link?: string;
+  internalLink?: string;
 }) {
   const CardContent = (
     <motion.div
@@ -584,13 +590,21 @@ function FeatureCard({
       <p className="text-muted-foreground leading-relaxed flex-grow">
         {description}
       </p>
-      {link && (
+      {(link || internalLink) && (
         <div className="mt-6 flex items-center text-primary font-bold text-sm">
           Acessar <ArrowRight size={16} className="ml-2" />
         </div>
       )}
     </motion.div>
   );
+
+  if (internalLink) {
+    return (
+      <Link href={internalLink} className="block h-full" data-testid={`link-${internalLink.replace('/', '')}`}>
+        {CardContent}
+      </Link>
+    );
+  }
 
   if (link) {
     return (
@@ -599,6 +613,7 @@ function FeatureCard({
         target="_blank"
         rel="noopener noreferrer"
         className="block h-full"
+        data-testid={`link-external-${title.toLowerCase().replace(/\s+/g, '-')}`}
       >
         {CardContent}
       </a>
