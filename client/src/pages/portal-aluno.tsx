@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "wouter";
+import { motion } from "framer-motion";
 import {
   Home,
   Dna,
@@ -11,6 +12,8 @@ import {
   X,
   ArrowLeft,
   Search,
+  Moon,
+  Sun,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,6 +25,15 @@ type Section = "home" | "matriz" | "academic" | "calculator" | "financial" | "se
 export default function PortalAluno() {
   const [activeSection, setActiveSection] = useState<Section>("home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDark, setIsDark] = useState(true);
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [isDark]);
 
   const menuItems = [
     { id: "home" as Section, label: "Início", icon: <Home size={20} /> },
@@ -33,18 +45,18 @@ export default function PortalAluno() {
   ];
 
   return (
-    <div className="flex h-screen bg-background overflow-hidden">
+    <div className="flex h-screen bg-background text-foreground overflow-hidden transition-colors duration-300">
       {/* Sidebar - Desktop */}
-      <aside className="hidden md:flex flex-col w-64 bg-black text-white border-r border-primary/20">
+      <aside className="hidden md:flex flex-col w-64 bg-card border-r border-border">
         {/* Logo */}
-        <div className="p-6 border-b border-gray-800 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-md bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-black font-bold text-lg shadow-lg shadow-primary/30">
-            d
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight">deepmed</h1>
-            <p className="text-xs text-gray-400 uppercase tracking-widest">Medicina</p>
-          </div>
+        <div className="p-6 border-b border-border flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <img
+              src="/logo-deepmed.png"
+              alt="deepmed"
+              className="h-8 w-auto"
+            />
+          </Link>
         </div>
 
         {/* Navigation */}
@@ -57,11 +69,11 @@ export default function PortalAluno() {
                   data-testid={`button-nav-${item.id}`}
                   className={`w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-all ${
                     activeSection === item.id
-                      ? "bg-primary/15 border-l-4 border-primary text-white font-semibold"
-                      : "text-gray-400 hover:bg-primary/10 hover:text-white border-l-4 border-transparent"
+                      ? "bg-primary/15 border-l-4 border-primary text-foreground font-semibold"
+                      : "text-muted-foreground hover:bg-primary/10 hover:text-foreground border-l-4 border-transparent"
                   }`}
                 >
-                  {item.icon}
+                  <span className={activeSection === item.id ? "text-primary" : ""}>{item.icon}</span>
                   <span>{item.label}</span>
                 </button>
               </li>
@@ -70,14 +82,14 @@ export default function PortalAluno() {
         </nav>
 
         {/* Footer */}
-        <div className="p-4 border-t border-gray-800">
-          <div className="bg-gray-900 rounded-lg p-3 flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-black text-xs font-bold">
+        <div className="p-4 border-t border-border">
+          <div className="bg-secondary rounded-lg p-3 flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs font-bold">
               UN
             </div>
             <div>
-              <p className="text-xs text-white font-semibold">UNIVERSO</p>
-              <p className="text-[10px] text-gray-400">PPC Medicina</p>
+              <p className="text-xs font-semibold">UNIVERSO</p>
+              <p className="text-[10px] text-muted-foreground">PPC Medicina</p>
             </div>
           </div>
         </div>
@@ -86,33 +98,47 @@ export default function PortalAluno() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Mobile Header */}
-        <header className="md:hidden bg-black text-white p-4 flex justify-between items-center border-b border-primary/20">
+        <header className="md:hidden bg-card border-b border-border p-4 flex justify-between items-center">
+          <Link href="/" className="flex items-center gap-2">
+            <img
+              src="/logo-deepmed.png"
+              alt="deepmed"
+              className="h-6 w-auto"
+            />
+          </Link>
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded bg-primary flex items-center justify-center text-black font-bold text-xs">
-              d
-            </div>
-            <span className="font-bold text-lg">deepmed</span>
+            <button
+              onClick={() => setIsDark(!isDark)}
+              className="p-2 rounded-full hover:bg-muted transition-colors"
+            >
+              {isDark ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-primary p-2"
+              data-testid="button-mobile-menu"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="text-primary"
-            data-testid="button-mobile-menu"
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
         </header>
 
         {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
-          <div className="absolute inset-0 bg-black/95 z-50 md:hidden flex flex-col pt-16 backdrop-blur-sm">
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            className="absolute inset-0 bg-background z-50 md:hidden flex flex-col pt-16 backdrop-blur-sm"
+          >
             <button
               onClick={() => setIsMobileMenuOpen(false)}
-              className="absolute top-4 right-4 text-white text-2xl"
+              className="absolute top-4 right-4 text-foreground text-2xl p-2"
               data-testid="button-close-mobile-menu"
             >
               <X />
             </button>
-            <nav className="flex flex-col text-white px-6">
+            <nav className="flex flex-col px-6 pt-4">
               {menuItems.map((item) => (
                 <button
                   key={item.id}
@@ -120,8 +146,8 @@ export default function PortalAluno() {
                     setActiveSection(item.id);
                     setIsMobileMenuOpen(false);
                   }}
-                  className={`py-4 border-b border-gray-800 text-left flex items-center gap-3 ${
-                    activeSection === item.id ? "text-primary" : "hover:text-primary"
+                  className={`py-4 border-b border-border text-left flex items-center gap-3 ${
+                    activeSection === item.id ? "text-primary font-semibold" : "text-foreground hover:text-primary"
                   }`}
                   data-testid={`button-mobile-nav-${item.id}`}
                 >
@@ -130,11 +156,11 @@ export default function PortalAluno() {
                 </button>
               ))}
             </nav>
-          </div>
+          </motion.div>
         )}
 
         {/* Top Bar */}
-        <div className="bg-card shadow-sm px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4 border-b">
+        <div className="bg-card border-b border-border px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-3 w-full md:w-auto">
             <Link href="/">
               <Button variant="ghost" size="icon" data-testid="button-back-home">
@@ -146,14 +172,23 @@ export default function PortalAluno() {
             </h2>
           </div>
 
-          <div className="relative w-full md:w-96">
-            <Input
-              type="text"
-              placeholder="Pesquisar..."
-              className="pl-10"
-              data-testid="input-search"
-            />
-            <Search className="absolute left-3 top-3 text-muted-foreground" size={16} />
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            <div className="relative flex-1 md:w-96">
+              <Input
+                type="text"
+                placeholder="Pesquisar..."
+                className="pl-10"
+                data-testid="input-search"
+              />
+              <Search className="absolute left-3 top-3 text-muted-foreground" size={16} />
+            </div>
+            <button
+              onClick={() => setIsDark(!isDark)}
+              className="hidden md:flex p-2 rounded-full hover:bg-muted transition-colors"
+              aria-label="Toggle theme"
+            >
+              {isDark ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
           </div>
         </div>
 
@@ -175,23 +210,23 @@ function HomeSection() {
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
       {/* Hero Banner */}
-      <Card className="bg-black text-white border-primary/20 relative overflow-hidden">
+      <Card className="bg-card border-primary/20 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -mr-10 -mt-10" />
         <CardContent className="p-8 relative z-10">
-          <Badge className="mb-3 bg-primary text-black">ATUALIZADO 2025.2</Badge>
+          <Badge className="mb-3 bg-primary text-primary-foreground">ATUALIZADO 2025.2</Badge>
           <h1 className="text-3xl font-bold mb-2">Portal do Aluno de Medicina</h1>
-          <p className="text-gray-300 text-lg mb-6 max-w-xl">
+          <p className="text-muted-foreground text-lg mb-6 max-w-xl">
             Acesso completo à matriz curricular, regulamentos e ferramentas acadêmicas baseadas no
             novo Projeto Pedagógico.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link href="/matriz-curricular">
-              <Button className="bg-primary hover:bg-primary/90 text-black font-bold" data-testid="button-view-matriz">
+              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold" data-testid="button-view-matriz">
                 <Dna size={16} className="mr-2" />
                 Ver Matriz Curricular
               </Button>
             </Link>
-            <Button variant="outline" className="border-gray-600 hover:border-primary hover:text-primary" data-testid="button-view-calculators">
+            <Button variant="outline" data-testid="button-view-calculators">
               Calculadoras
             </Button>
           </div>
@@ -243,7 +278,11 @@ function HomeSection() {
 
 function MatrizSection() {
   return (
-    <div className="space-y-6">
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-6"
+    >
       <Card>
         <CardHeader>
           <CardTitle>Matriz Curricular - Medicina UNIVERSO</CardTitle>
@@ -261,34 +300,38 @@ function MatrizSection() {
           </Link>
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 }
 
 function AcademicSection() {
   return (
-    <div className="space-y-6">
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-6"
+    >
       <Card>
         <CardHeader>
           <CardTitle>Vida Acadêmica</CardTitle>
           <CardDescription>Informações sobre estágios, internato e atividades complementares</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="p-4 border rounded-lg">
+          <div className="p-4 border border-border rounded-lg hover:border-primary/50 transition-colors">
             <h3 className="font-semibold mb-2">Estágios Obrigatórios</h3>
             <p className="text-sm text-muted-foreground">
               Os estágios obrigatórios são realizados a partir do 9º período, incluindo áreas como
               clínica médica, cirurgia, pediatria e ginecologia/obstetrícia.
             </p>
           </div>
-          <div className="p-4 border rounded-lg">
+          <div className="p-4 border border-border rounded-lg hover:border-primary/50 transition-colors">
             <h3 className="font-semibold mb-2">Internato Médico</h3>
             <p className="text-sm text-muted-foreground">
               O internato ocorre nos dois últimos anos do curso, com rodízios em diferentes
               especialidades médicas.
             </p>
           </div>
-          <div className="p-4 border rounded-lg">
+          <div className="p-4 border border-border rounded-lg hover:border-primary/50 transition-colors">
             <h3 className="font-semibold mb-2">Trabalho de Conclusão de Curso (TCC)</h3>
             <p className="text-sm text-muted-foreground">
               O TCC deve ser desenvolvido ao longo do curso, com orientação de professores
@@ -297,15 +340,19 @@ function AcademicSection() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 }
 
 function CalculatorSection() {
   return (
-    <div className="space-y-6">
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-6"
+    >
       <div className="grid md:grid-cols-2 gap-6">
-        <Card>
+        <Card className="hover:border-primary/50 transition-colors">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Calculator className="w-5 h-5 text-primary" />
@@ -321,7 +368,7 @@ function CalculatorSection() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:border-primary/50 transition-colors">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Calculator className="w-5 h-5 text-primary" />
@@ -337,27 +384,31 @@ function CalculatorSection() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 function FinancialSection() {
   return (
-    <div className="space-y-6">
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-6"
+    >
       <Card>
         <CardHeader>
           <CardTitle>Contratos e Informações Financeiras</CardTitle>
           <CardDescription>Documentos e informações sobre mensalidades e contratos</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="p-4 border rounded-lg">
+          <div className="p-4 border border-border rounded-lg hover:border-primary/50 transition-colors">
             <h3 className="font-semibold mb-2">Contrato de Prestação de Serviços Educacionais</h3>
             <p className="text-sm text-muted-foreground mb-3">
               Acesse o contrato de matrícula e prestação de serviços.
             </p>
             <Button variant="outline" size="sm" data-testid="button-view-contract">Ver Contrato</Button>
           </div>
-          <div className="p-4 border rounded-lg">
+          <div className="p-4 border border-border rounded-lg hover:border-primary/50 transition-colors">
             <h3 className="font-semibold mb-2">Informações sobre Mensalidades</h3>
             <p className="text-sm text-muted-foreground mb-3">
               Consulte valores, datas de vencimento e formas de pagamento.
@@ -366,15 +417,19 @@ function FinancialSection() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 }
 
 function ServicesSection() {
   return (
-    <div className="space-y-6">
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-6"
+    >
       <div className="grid md:grid-cols-2 gap-6">
-        <Card>
+        <Card className="hover:border-primary/50 transition-colors">
           <CardHeader>
             <CardTitle>Biblioteca</CardTitle>
           </CardHeader>
@@ -386,7 +441,7 @@ function ServicesSection() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:border-primary/50 transition-colors">
           <CardHeader>
             <CardTitle>Secretaria Acadêmica</CardTitle>
           </CardHeader>
@@ -398,7 +453,7 @@ function ServicesSection() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:border-primary/50 transition-colors">
           <CardHeader>
             <CardTitle>Suporte Técnico</CardTitle>
           </CardHeader>
@@ -410,7 +465,7 @@ function ServicesSection() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="hover:border-primary/50 transition-colors">
           <CardHeader>
             <CardTitle>Ouvidoria</CardTitle>
           </CardHeader>
@@ -422,7 +477,7 @@ function ServicesSection() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -438,13 +493,13 @@ function QuickAccessCard({
   badge: string;
 }) {
   return (
-    <Card className="hover:border-primary/50 transition-all hover-elevate cursor-pointer">
+    <Card className="hover:border-primary/50 transition-all hover:shadow-lg cursor-pointer group">
       <CardHeader>
         <div className="flex items-start justify-between">
-          <div className="p-3 rounded-xl bg-primary/10 mb-4">{icon}</div>
+          <div className="p-3 rounded-xl bg-primary/10 mb-4 group-hover:bg-primary/20 transition-colors">{icon}</div>
           <Badge variant="secondary" className="text-xs">{badge}</Badge>
         </div>
-        <CardTitle className="text-lg">{title}</CardTitle>
+        <CardTitle className="text-lg group-hover:text-primary transition-colors">{title}</CardTitle>
         <CardDescription className="text-sm">{description}</CardDescription>
       </CardHeader>
     </Card>
