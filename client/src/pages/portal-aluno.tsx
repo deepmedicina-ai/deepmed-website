@@ -192,7 +192,7 @@ export default function PortalAluno() {
 
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto p-4 md:p-8">
-          {activeSection === "home" && <HomeSection />}
+          {activeSection === "home" && <HomeSection onNavigate={setActiveSection} />}
           {activeSection === "matriz" && <MatrizSection />}
           {activeSection === "academic" && <AcademicSection />}
           {activeSection === "calculator" && <CalculatorSection />}
@@ -204,7 +204,7 @@ export default function PortalAluno() {
   );
 }
 
-function HomeSection() {
+function HomeSection({ onNavigate }: { onNavigate: (section: Section) => void }) {
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
       {/* Hero Banner */}
@@ -222,7 +222,7 @@ function HomeSection() {
               <Dna size={16} />
               Ver Matriz Curricular
             </Link>
-            <Button variant="outline" data-testid="button-view-calculators">
+            <Button variant="outline" onClick={() => onNavigate("calculator")} data-testid="button-view-calculators">
               Calculadoras
             </Button>
           </div>
@@ -236,36 +236,42 @@ function HomeSection() {
           title="Matriz Curricular"
           description="Consulte todas as disciplinas do curso de Medicina"
           badge="12 Semestres"
+          onClick={() => onNavigate("matriz")}
         />
         <QuickAccessCard
           icon={<Calculator className="w-8 h-8 text-primary" />}
           title="Calculadoras"
           description="Ferramentas para cálculo de média e análise acadêmica"
           badge="5 Ferramentas"
+          onClick={() => onNavigate("calculator")}
         />
         <QuickAccessCard
           icon={<FileText className="w-8 h-8 text-primary" />}
           title="Regulamentos"
           description="Acesso aos documentos e normas acadêmicas"
           badge="Atualizado"
+          onClick={() => onNavigate("academic")}
         />
         <QuickAccessCard
           icon={<GraduationCap className="w-8 h-8 text-primary" />}
           title="Vida Acadêmica"
           description="Informações sobre estágios, internato e TCC"
           badge="Essencial"
+          onClick={() => onNavigate("academic")}
         />
         <QuickAccessCard
           icon={<Briefcase className="w-8 h-8 text-primary" />}
           title="Serviços"
           description="Biblioteca, secretaria e outros serviços"
           badge="Disponível"
+          onClick={() => onNavigate("services")}
         />
         <QuickAccessCard
           icon={<FileText className="w-8 h-8 text-primary" />}
           title="Contratos"
           description="Consulte contratos e informações financeiras"
           badge="Importante"
+          onClick={() => onNavigate("financial")}
         />
       </div>
     </div>
@@ -480,14 +486,20 @@ function QuickAccessCard({
   title,
   description,
   badge,
+  onClick,
 }: {
   icon: React.ReactNode;
   title: string;
   description: string;
   badge: string;
+  onClick?: () => void;
 }) {
   return (
-    <Card className="hover:border-primary/50 transition-all hover:shadow-lg cursor-pointer group">
+    <Card 
+      className="hover:border-primary/50 transition-all hover:shadow-lg cursor-pointer group"
+      onClick={onClick}
+      data-testid={`card-${title.toLowerCase().replace(/\s+/g, '-')}`}
+    >
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="p-3 rounded-xl bg-primary/10 mb-4 group-hover:bg-primary/20 transition-colors">{icon}</div>
