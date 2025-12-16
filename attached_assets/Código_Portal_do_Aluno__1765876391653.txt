@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual do Aluno - DeepMed / UNIVERSO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        /* CONFIGURAÇÃO DE CORES DEEPMED OFICIAL */
+        :root {
+            /* Paleta extraída do PDF */
+            --deepmed-light-green: #46DA61;
+            --deepmed-dark-green: #3CB956;
+            --deepmed-black: #000000;
+            --deepmed-white: #FFFFFF;
+            
+            /* Variáveis de Aplicação */
+            --primary: var(--deepmed-dark-green);
+            --accent: var(--deepmed-light-green);
+            --bg-dark: var(--deepmed-black);
+            --text-on-dark: var(--deepmed-white);
+            --gray-light: #f3f4f6;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--gray-light);
+            color: #1f2937;
+        }
+
+        /* Sidebar Styling */
+        .sidebar-deepmed {
+            background-color: var(--deepmed-black);
+            color: var(--deepmed-white);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e5e7eb;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--deepmed-dark-green);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--deepmed-light-green);
+        }
+
+        /* Nav Item Styles */
+        .nav-item {
+            border-left: 3px solid transparent;
+            color: #9ca3af;
+        }
+        .nav-item:hover {
+            background-color: rgba(70, 218, 97, 0.1); /* Light green low opacity */
+            color: var(--deepmed-white);
+        }
+        .active-nav {
+            background-color: rgba(70, 218, 97, 0.15);
+            border-left: 3px solid var(--deepmed-light-green);
+            color: var(--deepmed-white);
+            font-weight: 600;
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background-color: var(--deepmed-dark-green);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: var(--deepmed-light-green);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(70, 218, 97, 0.3);
+        }
+
+        /* DeepMed Logo Style */
+        .logo-text {
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .hidden-section {
+            display: none;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        /* Cards */
+        .card-hover {
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        .card-hover:hover {
+            border-color: var(--deepmed-light-green);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Matrix Specific Styles */
+        .matrix-row {
+            transition: background-color 0.2s;
+        }
+        .matrix-row:hover {
+            background-color: #f9fafb;
+        }
+        .tag-hour {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .tag-t { background-color: #e0f2fe; color: #0369a1; } /* Teórica */
+        .tag-p { background-color: #dcfce7; color: #15803d; } /* Prática */
+        .tag-e { background-color: #f3e8ff; color: #7e22ce; } /* Extensão */
+        .tag-i { background-color: #ffedd5; color: #c2410c; } /* Estágio/Internato */
+
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar (Desktop) -->
+    <aside class="w-64 sidebar-deepmed hidden md:flex flex-col shadow-2xl z-20">
+        <!-- Logo Area -->
+        <div class="p-6 flex items-center gap-3 border-b border-gray-800">
+            <div class="w-8 h-8 rounded bg-gradient-to-br from-[#46DA61] to-[#3CB956] flex items-center justify-center text-black font-bold text-lg shadow-[0_0_10px_rgba(70,218,97,0.5)]">
+                d
+            </div>
+            <div>
+                <h1 class="text-2xl logo-text text-white tracking-tight">deepmed</h1>
+                <p class="text-[10px] text-gray-400 uppercase tracking-widest">Medicina</p>
+            </div>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-3">
+            <ul class="space-y-2">
+                <li>
+                    <button onclick="showSection('home')" class="w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors active-nav nav-item" id="btn-home">
+                        <i class="fa-solid fa-house w-5"></i> Início
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showSection('matrix')" class="w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors nav-item" id="btn-matrix">
+                        <i class="fa-solid fa-dna w-5 text-[#46DA61]"></i> Matriz Curricular
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showSection('academic')" class="w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors nav-item" id="btn-academic">
+                        <i class="fa-solid fa-graduation-cap w-5"></i> Vida Acadêmica
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showSection('calculator')" class="w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors nav-item" id="btn-calculator">
+                        <i class="fa-solid fa-calculator w-5"></i> Calculadoras
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showSection('financial')" class="w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors nav-item" id="btn-financial">
+                        <i class="fa-solid fa-file-contract w-5"></i> Contratos
+                    </button>
+                </li>
+                <li>
+                    <button onclick="showSection('services')" class="w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition-colors nav-item" id="btn-services">
+                        <i class="fa-solid fa-briefcase-medical w-5"></i> Serviços
+                    </button>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="p-4 border-t border-gray-800">
+            <div class="bg-gray-900 rounded p-3 flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-[#3CB956] flex items-center justify-center text-white text-xs font-bold">UN</div>
+                <div>
+                    <p class="text-xs text-white font-semibold">UNIVERSO</p>
+                    <p class="text-[10px] text-gray-400">PPC Medicina</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-screen overflow-hidden relative bg-gray-50">
+        <!-- Mobile Header -->
+        <header class="md:hidden bg-black text-white p-4 flex justify-between items-center z-30 shadow-md border-b border-[#3CB956]">
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded bg-[#46DA61] flex items-center justify-center text-black font-bold text-xs">d</div>
+                <span class="font-bold text-lg logo-text">deepmed</span>
+            </div>
+            <button onclick="toggleMobileMenu()" class="text-[#46DA61] focus:outline-none">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </header>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="absolute inset-0 bg-black/95 z-40 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col pt-16 backdrop-blur-sm">
+            <button onclick="toggleMobileMenu()" class="absolute top-4 right-4 text-white text-2xl"><i class="fa-solid fa-xmark"></i></button>
+            <nav class="flex flex-col text-white px-6">
+                <button onclick="showSection('home'); toggleMobileMenu()" class="py-4 border-b border-gray-800 text-left hover:text-[#46DA61]">Início</button>
+                <button onclick="showSection('matrix'); toggleMobileMenu()" class="py-4 border-b border-gray-800 text-left text-[#46DA61]">Matriz Curricular</button>
+                <button onclick="showSection('academic'); toggleMobileMenu()" class="py-4 border-b border-gray-800 text-left hover:text-[#46DA61]">Vida Acadêmica</button>
+                <button onclick="showSection('calculator'); toggleMobileMenu()" class="py-4 border-b border-gray-800 text-left hover:text-[#46DA61]">Calculadoras</button>
+                <button onclick="showSection('financial'); toggleMobileMenu()" class="py-4 border-b border-gray-800 text-left hover:text-[#46DA61]">Financeiro</button>
+                <button onclick="showSection('services'); toggleMobileMenu()" class="py-4 border-b border-gray-800 text-left hover:text-[#46DA61]">Serviços</button>
+            </nav>
+        </div>
+
+        <!-- Top Bar (Search & Back) -->
+        <div class="bg-white shadow-sm px-6 py-4 flex flex-col md:flex-row justify-between items-center z-10 gap-4 sticky top-0">
+            <div class="flex items-center gap-3 w-full md:w-auto">
+                <!-- BACK BUTTON -->
+                <button id="global-back-btn" onclick="showSection('home')" class="hidden text-gray-500 hover:text-[#46DA61] hover:bg-gray-100 p-2 rounded-full transition-all" title="Voltar ao Início">
+                    <i class="fa-solid fa-arrow-left text-xl"></i>
+                </button>
+                <!-- TITLE -->
+                <h2 id="page-title" class="text-xl font-bold text-gray-800 border-l-4 border-[#3CB956] pl-3 flex-1 md:flex-none">Bem-vindo</h2>
+            </div>
+            
+            <div class="relative w-full md:w-96">
+                <input type="text" id="search-input" onkeyup="filterContent()" placeholder="Pesquisar..." class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:border-[#3CB956] focus:ring-1 focus:ring-[#3CB956] transition-all text-sm">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-gray-400"></i>
+            </div>
+        </div>
+
+        <!-- Content Scroll Area -->
+        <div id="content-area" class="flex-1 overflow-y-auto p-4 md:p-8">
+            
+            <!-- SECTION: HOME -->
+            <section id="home" class="animate-fade">
+                <!-- Hero Banner -->
+                <div class="bg-black rounded-2xl p-8 text-white mb-8 shadow-xl relative overflow-hidden border border-[#3CB956]">
+                    <!-- Green Glow Effect -->
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-[#46DA61] opacity-10 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                    
+                    <div class="relative z-10">
+                        <span class="bg-[#3CB956] text-black text-xs font-bold px-2 py-1 rounded mb-3 inline-block">ATUALIZADO 2025.2</span>
+                        <h1 class="text-3xl font-bold mb-2">Portal do Aluno de Medicina</h1>
+                        <p class="text-gray-300 text-lg mb-6 max-w-xl">Acesso completo à matriz curricular, regulamentos e ferramentas acadêmicas baseadas no novo Projeto Pedagógico.</p>
+                        
+                        <div class="flex flex-wrap gap-4">
+                            <button onclick="showSection('matrix')" class="bg-[#3CB956] hover:bg-[#46DA61] text-white px-6 py-2.5 rounded-lg font-bold transition shadow-[0_0_15px_rgba(60,185,86,0.3)] flex items-center">
+                                <i class="fa-solid fa-dna mr-2"></i> Ver Matriz Curricular
+                            </button>
+                            <!-- UPDATED BUTTON TEXT AS REQUESTED -->
+                            <button onclick="showSection('calculator')" class="bg-transparent border border-gray-600 hover:border-[#46DA61] hover:text-[#46DA61] text-gray-300 px-6 py-2.5 rounded-lg font-semibold transition">
+                                Calculadoras
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-2 border-[#3CB956] card-hover">
+                        <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-[#3CB956] mb-4 text-xl"><i class="fa-solid fa-clock"></i></div>
+                        <h3 class="font-bold text-lg mb-2 text-gray-900">Carga Horária</h3>
+                        <p class="text-gray-600 text-sm">Total do curso: <span class="font-bold text-black">7.523 horas</span>. Distribuídas em 12 períodos.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-2 border-black card-hover">
+                        <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-black mb-4 text-xl"><i class="fa-solid fa-user-doctor"></i></div>
+                        <h3 class="font-bold text-lg mb-2 text-gray-900">Internato</h3>
+                        <p class="text-gray-600 text-sm">A partir do 9º período, com imersão prática total em Neonatologia, Clínica, Cirurgia e mais.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border-t-2 border-[#46DA61] card-hover">
+                        <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-[#46DA61] mb-4 text-xl"><i class="fa-solid fa-hands-holding-circle"></i></div>
+                        <h3 class="font-bold text-lg mb-2 text-gray-900">Extensão</h3>
+                        <p class="text-gray-600 text-sm">Atividades curriculares de extensão integradas do 1º ao 8º período.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: MATRIZ CURRICULAR -->
+            <section id="matrix" class="hidden-section animate-fade">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-black">Matriz Curricular</h2>
+                        <p class="text-sm text-gray-500">Baseado no Projeto Pedagógico do Curso de Medicina (Quadro Síntese)</p>
+                    </div>
+                    <div class="bg-black text-white px-4 py-2 rounded-lg text-center shadow-lg border border-[#46DA61]">
+                        <span class="block text-[10px] text-gray-400 uppercase">Total Curso</span>
+                        <span class="font-bold text-xl text-[#46DA61]">7.523h</span>
+                    </div>
+                </div>
+
+                <!-- Eixos Badges -->
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-800">Ciências Médicas</span>
+                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-800">Habilidades Profissionais</span>
+                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-100 text-purple-800">Integração Ensino-Serviço</span>
+                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-800">Internato</span>
+                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-gray-200 text-gray-800">Extensão</span>
+                </div>
+
+                <div class="space-y-4" id="matrix-container">
+                    <!-- Javascript will populate this based on the Ementa data -->
+                </div>
+                
+                <div class="mt-6 p-4 bg-gray-100 rounded text-xs text-gray-600 border-l-4 border-gray-400">
+                    <strong>Nota:</strong> CH = Carga Horária. As horas estão expressas em "Hora Relógio" conforme quadro síntese do PPC.
+                </div>
+            </section>
+
+            <!-- SECTION: ACADEMIC -->
+            <section id="academic" class="hidden-section animate-fade">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-black">Vida Acadêmica</h2>
+                    <span class="text-xs bg-[#46DA61] text-black px-2 py-1 rounded font-bold">Art. 123-128</span>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden searchable-item">
+                        <div class="bg-black p-4 flex items-center gap-3">
+                            <div class="text-[#46DA61]"><i class="fa-solid fa-chalkboard-user"></i></div>
+                            <h3 class="text-lg font-bold text-white">Avaliação (Presencial)</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
+                                <div>
+                                    <h4 class="font-bold text-black mb-3 border-b border-gray-100 pb-2">Composição da Nota</h4>
+                                    <ul class="space-y-3">
+                                        <li class="flex items-center justify-between"><span class="text-gray-600">V1 (1ª Verificação)</span> <span class="font-mono font-bold bg-gray-100 px-2">0-10</span></li>
+                                        <li class="flex items-center justify-between"><span class="text-gray-600">VT (Verificação Testes)</span> <span class="font-mono font-bold bg-gray-100 px-2">0-10</span></li>
+                                        <li class="flex items-center justify-between"><span class="text-gray-600">V2 (2ª Verificação)</span> <span class="font-mono font-bold bg-gray-100 px-2">0-10</span></li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-black mb-3 border-b border-gray-100 pb-2">Critérios</h4>
+                                    <ul class="space-y-2 text-gray-700">
+                                        <li><strong>Aprovação Direta:</strong> Média ≥ 7,0</li>
+                                        <li><strong>VS (Recuperação Final):</strong> Média entre 4,0 e 6,9</li>
+                                        <li><strong>Reprovação:</strong> Média < 4,0</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: CALCULATOR -->
+            <section id="calculator" class="hidden-section animate-fade">
+                <div class="max-w-2xl mx-auto">
+                    <div class="text-center mb-6">
+                        <h2 class="text-2xl font-bold text-black">Calculadoras Acadêmicas</h2>
+                        <p class="text-gray-500 text-sm">Simule suas notas ou calcule seu CR geral.</p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+                        <!-- Calc Mode Switch -->
+                        <div class="flex border-b border-gray-100">
+                            <button onclick="setCalcTool('grade')" id="btn-tool-grade" class="flex-1 py-4 text-sm font-bold bg-black text-white transition-all border-b-4 border-[#46DA61]">
+                                Média Semestral
+                            </button>
+                            <button onclick="setCalcTool('cr')" id="btn-tool-cr" class="flex-1 py-4 text-sm font-bold bg-gray-50 text-gray-500 hover:text-black transition-all border-b-4 border-transparent">
+                                Coeficiente de Rendimento (CR)
+                            </button>
+                        </div>
+
+                        <!-- Tool: Grade Calculator -->
+                        <div id="tool-grade" class="p-8">
+                            <div class="bg-blue-50 text-blue-900 p-3 rounded-lg mb-6 text-sm text-center font-medium border border-blue-100">
+                                Fórmula: ((V1 x 2) + VT + (V2 x 2)) / 5
+                            </div>
+                            <div class="space-y-6">
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">V1 (Peso 2)</label>
+                                        <input type="number" id="nota-v1" class="w-full p-4 border border-gray-200 rounded-xl focus:border-[#3CB956] outline-none text-center font-bold text-2xl bg-gray-50" placeholder="-" min="0" max="10" step="0.1">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">VT (Peso 1)</label>
+                                        <input type="number" id="nota-vt" class="w-full p-4 border border-gray-200 rounded-xl focus:border-[#3CB956] outline-none text-center font-bold text-2xl bg-gray-50" placeholder="-" min="0" max="10" step="0.1">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">V2 (Peso 2)</label>
+                                        <input type="number" id="nota-v2" class="w-full p-4 border border-gray-200 rounded-xl focus:border-[#3CB956] outline-none text-center font-bold text-2xl bg-gray-50" placeholder="-" min="0" max="10" step="0.1">
+                                    </div>
+                                </div>
+                                <button onclick="calcularPresencial()" class="w-full bg-[#3CB956] hover:bg-[#46DA61] text-white font-bold py-4 rounded-xl shadow-lg transition transform active:scale-95 text-lg">
+                                    Calcular Média
+                                </button>
+                                
+                                <div id="result-box" class="mt-8 hidden animate-fade pt-6 border-t border-dashed border-gray-200 text-center">
+                                    <span class="text-xs text-gray-400 uppercase tracking-widest font-bold">Média Semestral</span>
+                                    <div id="media-display" class="text-5xl font-black text-black my-2">--</div>
+                                    <div id="status-display" class="inline-block px-6 py-2 rounded-full text-sm font-bold bg-gray-100 text-gray-600">--</div>
+                                    <div id="vs-simulation" class="mt-4 hidden"><p class="text-sm text-gray-600">Necessário na VS: <strong id="vs-needed" class="text-orange-500">--</strong></p></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tool: CR Calculator -->
+                        <div id="tool-cr" class="p-8 hidden">
+                            <!-- Info Section -->
+                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-6 text-sm text-gray-600">
+                                <h4 class="font-bold text-black mb-2 flex items-center gap-2"><i class="fa-solid fa-circle-info text-[#46DA61]"></i> Como calcular o CR:</h4>
+                                <ol class="list-decimal pl-4 space-y-1">
+                                    <li>Multiplique a nota de cada disciplina pela sua carga horária.</li>
+                                    <li>Some todos os resultados dessa multiplicação.</li>
+                                    <li>Divida essa soma pela carga horária total cursada.</li>
+                                </ol>
+                                <div class="mt-3 p-2 bg-white rounded border border-gray-200 font-mono text-center text-xs">
+                                    CR = Σ (Nota × Carga Horária) / Σ Carga Horária
+                                </div>
+                            </div>
+
+                            <!-- Calculator Form -->
+                            <div class="space-y-4">
+                                <div id="cr-disciplines-list" class="space-y-3">
+                                    <!-- Dynamic Rows will be added here -->
+                                    <div class="cr-row grid grid-cols-12 gap-2 items-end">
+                                        <div class="col-span-5">
+                                            <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Nota</label>
+                                            <input type="number" class="cr-nota w-full p-2 border rounded-lg focus:border-black outline-none" placeholder="0-10" min="0" max="10" step="0.1">
+                                        </div>
+                                        <div class="col-span-5">
+                                            <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">C. Horária</label>
+                                            <input type="number" class="cr-ch w-full p-2 border rounded-lg focus:border-black outline-none" placeholder="Ex: 80" min="0">
+                                        </div>
+                                        <div class="col-span-2">
+                                            <button onclick="clearRow(this)" class="w-full p-2 text-gray-400 hover:text-red-500 transition"><i class="fa-solid fa-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <button onclick="addCrRow()" class="text-sm font-bold text-[#3CB956] hover:text-[#46DA61] flex items-center gap-2 py-2">
+                                    <i class="fa-solid fa-plus-circle"></i> Adicionar Disciplina
+                                </button>
+
+                                <button onclick="calcularCR()" class="w-full bg-black hover:bg-gray-800 text-white font-bold py-4 rounded-xl shadow-lg transition transform active:scale-95 text-lg mt-4">
+                                    Calcular CR Geral
+                                </button>
+
+                                <div id="cr-result-box" class="mt-6 hidden animate-fade pt-6 border-t border-dashed border-gray-200 text-center">
+                                    <span class="text-xs text-gray-400 uppercase tracking-widest font-bold">Seu Coeficiente de Rendimento</span>
+                                    <div id="cr-display" class="text-5xl font-black text-[#46DA61] my-2">--</div>
+                                    <p class="text-xs text-gray-500">Baseado nas disciplinas informadas acima.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <!-- SECTION: FINANCIAL -->
+            <section id="financial" class="hidden-section animate-fade">
+                <h2 class="text-2xl font-bold text-black mb-6">Financeiro e Contratos</h2>
+                <div class="bg-white p-8 rounded-xl shadow-sm border-l-8 border-[#3CB956] searchable-item">
+                    <h3 class="font-bold text-xl text-gray-900 mb-4">Assinatura de Contrato</h3>
+                    <ol class="list-decimal pl-5 text-sm space-y-3 text-gray-700">
+                        <li>Pagar 1ª parcela.</li>
+                        <li>Acessar Espaço do Aluno.</li>
+                        <li>Validar plano de estudos.</li>
+                        <li>Assinar com Token SMS.</li>
+                    </ol>
+                    <div class="mt-6 inline-flex items-center text-xs bg-red-50 text-red-600 px-3 py-2 rounded font-semibold border border-red-100">
+                        <i class="fa-solid fa-triangle-exclamation mr-2"></i> Obrigatório para assistir aulas.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: SERVICES -->
+            <section id="services" class="hidden-section animate-fade">
+                <h2 class="text-2xl font-bold text-black mb-6">Serviços</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm card-hover border-t-2 border-black">
+                        <h3 class="font-bold text-lg text-gray-900 mb-2"><i class="fa-solid fa-book mr-2"></i> Biblioteca</h3>
+                        <p class="text-sm text-gray-600">Empréstimo de até 3 livros por 8 dias. Multa R$ 3,00/dia.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm card-hover border-t-2 border-[#3CB956]">
+                        <h3 class="font-bold text-lg text-gray-900 mb-2"><i class="fa-solid fa-hands-holding-child mr-2"></i> NAPS</h3>
+                        <p class="text-sm text-gray-600">Apoio Psicopedagógico e Social ao estudante.</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        // --- DATA FROM EMENTA-MED.PDF ---
+        const matrixData = [
+            {
+                periodo: "1º Período",
+                totalHoras: "556,67h",
+                disciplinas: [
+                    { nome: "Habilidades e Atitudes Profissionais I", ch: "66,67", tipo: "Prática" },
+                    { nome: "Ações Integrais em Saúde: Ensino, Serviço e Comunidade I", ch: "83,33", tipo: "Prática" },
+                    { nome: "Bases Moleculares dos Seres Vivos", ch: "66,67", tipo: "Teórica" },
+                    { nome: "Biologia do Desenvolvimento", ch: "66,67", tipo: "Teórica" },
+                    { nome: "Integração de Sistemas Humanos I (Musculoesquelético)", ch: "100", tipo: "Teórica/Prática" },
+                    { nome: "Formação Cidadã I (Bioética)", ch: "33,33", tipo: "Teórica" },
+                    { nome: "Atividades Curriculares de Extensão I", ch: "100", tipo: "Extensão" },
+                    { nome: "Atividades Complementares I", ch: "40", tipo: "Compl" }
+                ]
+            },
+            {
+                periodo: "2º Período",
+                totalHoras: "623,33h",
+                disciplinas: [
+                    { nome: "Habilidades e Atitudes Profissionais II", ch: "66,67", tipo: "Prática" },
+                    { nome: "Ações Integrais em Saúde II", ch: "83,33", tipo: "Prática" },
+                    { nome: "Mecanismos de Agressão e Defesa", ch: "100", tipo: "Teórica" },
+                    { nome: "Integração de Sistemas Humanos II (Tegumentar)", ch: "100", tipo: "Teórica/Prática" },
+                    { nome: "Integração de Sistemas Humanos III (Nervoso)", ch: "100", tipo: "Teórica/Prática" },
+                    { nome: "Formação Cidadã II (Diversidade)", ch: "33,33", tipo: "Teórica" },
+                    { nome: "Atividades Curriculares de Extensão II", ch: "100", tipo: "Extensão" }
+                ]
+            },
+            {
+                periodo: "3º Período",
+                totalHoras: "523,33h",
+                disciplinas: [
+                    { nome: "Habilidades e Atitudes Profissionais III", ch: "66,67", tipo: "Prática" },
+                    { nome: "Ações Integrais em Saúde III", ch: "83,33", tipo: "Prática" },
+                    { nome: "Integração Sistemas Humanos IV (Reprodutor)", ch: "100", tipo: "Teórica/Prática" },
+                    { nome: "Integração Sistemas Humanos V (Urinário)", ch: "100", tipo: "Teórica/Prática" },
+                    { nome: "Formação Cidadã III (Ambiental)", ch: "33,33", tipo: "Teórica" },
+                    { nome: "Atividades Curriculares de Extensão III", ch: "100", tipo: "Extensão" }
+                ]
+            },
+            {
+                periodo: "4º Período",
+                totalHoras: "623,33h",
+                disciplinas: [
+                    { nome: "Habilidades e Atitudes Profissionais IV", ch: "66,67", tipo: "Prática" },
+                    { nome: "Integração Sistemas Humanos VI (Endócrino)", ch: "100", tipo: "Teórica/Prática" },
+                    { nome: "Integração Sistemas Humanos VII (Hematopoiético)", ch: "100", tipo: "Teórica/Prática" },
+                    { nome: "Integração Sistemas Humanos VIII (Digestório)", ch: "100", tipo: "Teórica/Prática" },
+                    { nome: "Empreendedorismo e Inovação em Saúde", ch: "33,33", tipo: "Teórica" },
+                    { nome: "Atividades Curriculares de Extensão IV", ch: "100", tipo: "Extensão" }
+                ]
+            },
+            {
+                periodo: "5º Período",
+                totalHoras: "523,33h",
+                disciplinas: [
+                    { nome: "Habilidades e Atitudes Profissionais V", ch: "100", tipo: "Prática" },
+                    { nome: "Integração Sistemas Humanos IX (Cardiovascular)", ch: "100", tipo: "Teórica/Prática" },
+                    { nome: "Integração Sistemas Humanos X (Respiratório)", ch: "100", tipo: "Teórica/Prática" },
+                    { nome: "Atividades Curriculares de Extensão V", ch: "100", tipo: "Extensão" }
+                ]
+            },
+            {
+                periodo: "6º Período",
+                totalHoras: "566,67h",
+                disciplinas: [
+                    { nome: "Habilidades e Atitudes Profissionais VI", ch: "100", tipo: "Prática" },
+                    { nome: "Saúde da Criança", ch: "100", tipo: "Teórica/Prática" },
+                    { nome: "Saúde da Mulher", ch: "100", tipo: "Teórica/Prática" },
+                    { nome: "Optativa I", ch: "33,33", tipo: "Teórica" },
+                    { nome: "Atividades Curriculares de Extensão VI", ch: "100", tipo: "Extensão" }
+                ]
+            },
+            {
+                periodo: "7º Período",
+                totalHoras: "580h",
+                disciplinas: [
+                    { nome: "Habilidades e Atitudes Profissionais VII", ch: "100", tipo: "Prática" },
+                    { nome: "Saúde do Adulto", ch: "100", tipo: "Teórica/Prática" },
+                    { nome: "Saúde da Pessoa Idosa", ch: "100", tipo: "Teórica/Prática" },
+                    { nome: "Metodologia Científica e MBE", ch: "33,33", tipo: "Teórica" },
+                    { nome: "Atividades Curriculares de Extensão VII", ch: "80", tipo: "Extensão" }
+                ]
+            },
+            {
+                periodo: "8º Período",
+                totalHoras: "580h",
+                disciplinas: [
+                    { nome: "Habilidades e Atitudes Profissionais VIII", ch: "100", tipo: "Prática" },
+                    { nome: "Saúde Mental", ch: "83,33", tipo: "Teórica/Prática" },
+                    { nome: "Cuidados Paliativos", ch: "83,33", tipo: "Teórica/Prática" },
+                    { nome: "Epidemiologia e Análise de Dados", ch: "66,67", tipo: "Teórica" },
+                    { nome: "Atividades Curriculares de Extensão VIII", ch: "80", tipo: "Extensão" }
+                ]
+            },
+            {
+                periodo: "9º Período (Internato)",
+                totalHoras: "720h",
+                disciplinas: [
+                    { nome: "Internato em Saúde da Criança I (Neonatologia)", ch: "240", tipo: "Estágio" },
+                    { nome: "Internato em Saúde do Adulto I (Clínica)", ch: "240", tipo: "Estágio" },
+                    { nome: "Internato em Saúde da Mulher I (Obstetrícia)", ch: "240", tipo: "Estágio" }
+                ]
+            },
+             {
+                periodo: "10º Período (Internato)",
+                totalHoras: "720h",
+                disciplinas: [
+                    { nome: "Internato em Urgência e Emergência Pré-hospitalar", ch: "240", tipo: "Estágio" },
+                    { nome: "Internato em Urgência e Emergência Hospitalar", ch: "240", tipo: "Estágio" },
+                    { nome: "Internato em Saúde da Família e Comunidade I", ch: "240", tipo: "Estágio" }
+                ]
+            },
+             {
+                periodo: "11º Período (Internato)",
+                totalHoras: "720h",
+                disciplinas: [
+                    { nome: "Internato em Saúde da Criança II (Pediatria)", ch: "240", tipo: "Estágio" },
+                    { nome: "Internato em Saúde do Adulto II (Cirurgia)", ch: "240", tipo: "Estágio" },
+                    { nome: "Internato em Saúde da Mulher II (Ginecologia)", ch: "240", tipo: "Estágio" }
+                ]
+            },
+             {
+                periodo: "12º Período (Internato)",
+                totalHoras: "786,67h",
+                disciplinas: [
+                    { nome: "Internato em Saúde da Pessoa Idosa", ch: "120", tipo: "Estágio" },
+                    { nome: "Internato em Saúde Mental", ch: "120", tipo: "Estágio" },
+                    { nome: "Internato em Saúde da Família e Comunidade II", ch: "240", tipo: "Estágio" },
+                    { nome: "Internato Optativo", ch: "240", tipo: "Estágio" },
+                    { nome: "Trabalho de Conclusão de Curso (TCC)", ch: "66,67", tipo: "Teórica" }
+                ]
+            }
+        ];
+
+        // Function to Render Matrix
+        function renderMatrix() {
+            const container = document.getElementById('matrix-container');
+            container.innerHTML = '';
+
+            matrixData.forEach((period, index) => {
+                const isInternato = period.periodo.includes("Internato");
+                const borderColor = isInternato ? "border-orange-200" : "border-gray-200";
+                const bgColor = isInternato ? "bg-orange-50" : "bg-white";
+
+                const html = `
+                    <div class="border ${borderColor} rounded-lg overflow-hidden bg-white shadow-sm mb-3">
+                        <button onclick="togglePeriod(${index})" class="w-full flex justify-between items-center p-4 ${bgColor} hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full ${isInternato ? 'bg-orange-100 text-orange-600' : 'bg-gray-100 text-gray-600'} flex items-center justify-center font-bold text-sm">${index + 1}</div>
+                                <span class="font-bold text-gray-800">${period.periodo}</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-semibold text-gray-500 bg-white px-2 py-1 rounded border border-gray-100">${period.totalHoras}</span>
+                                <i class="fa-solid fa-chevron-down text-gray-400 transition-transform" id="icon-${index}"></i>
+                            </div>
+                        </button>
+                        <div id="content-${index}" class="hidden p-4 border-t ${borderColor} bg-white">
+                            <ul class="space-y-2">
+                                ${period.disciplinas.map(disc => {
+                                    let tagClass = "tag-t";
+                                    if(disc.tipo.includes("Prática")) tagClass = "tag-p";
+                                    if(disc.tipo.includes("Extensão")) tagClass = "tag-e";
+                                    if(disc.tipo.includes("Estágio")) tagClass = "tag-i";
+                                    
+                                    return `
+                                    <li class="flex justify-between items-start text-sm py-2 border-b border-gray-50 last:border-0 matrix-row rounded px-2">
+                                        <span class="text-gray-700 w-3/4">${disc.nome}</span>
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-xs font-mono text-gray-500">${disc.ch}h</span>
+                                            <span class="tag-hour ${tagClass}">${disc.tipo}</span>
+                                        </div>
+                                    </li>
+                                    `
+                                }).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += html;
+            });
+        }
+
+        function togglePeriod(index) {
+            const content = document.getElementById(`content-${index}`);
+            const icon = document.getElementById(`icon-${index}`);
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        // Logic
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(el => el.classList.add('hidden-section'));
+            // Show target
+            document.getElementById(sectionId).classList.remove('hidden-section');
+            
+            // Navigation State
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.classList.remove('active-nav');
+                btn.classList.add('text-gray-400');
+            });
+            
+            const navBtn = document.getElementById(`btn-${sectionId}`);
+            if(navBtn) {
+                navBtn.classList.add('active-nav');
+                navBtn.classList.remove('text-gray-400');
+            }
+
+            const titles = {
+                'home': 'Início',
+                'matrix': 'Matriz Curricular',
+                'academic': 'Vida Acadêmica',
+                'calculator': 'Calculadoras',
+                'financial': 'Financeiro',
+                'services': 'Serviços'
+            };
+            document.getElementById('page-title').innerText = titles[sectionId];
+            
+            // BACK BUTTON LOGIC
+            const backBtn = document.getElementById('global-back-btn');
+            if (sectionId === 'home') {
+                backBtn.classList.add('hidden');
+            } else {
+                backBtn.classList.remove('hidden');
+            }
+
+            document.getElementById('search-input').value = '';
+            filterContent();
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('translate-x-full');
+        }
+
+        function filterContent() {
+            const term = document.getElementById('search-input').value.toLowerCase();
+            // Implement search if needed
+        }
+
+        // CALCULATOR LOGIC
+        function setCalcTool(tool) {
+            const btnGrade = document.getElementById('btn-tool-grade');
+            const btnCr = document.getElementById('btn-tool-cr');
+            const boxGrade = document.getElementById('tool-grade');
+            const boxCr = document.getElementById('tool-cr');
+
+            if (tool === 'grade') {
+                btnGrade.classList.remove('bg-gray-50', 'text-gray-500', 'border-transparent');
+                btnGrade.classList.add('bg-black', 'text-white', 'border-[#46DA61]');
+                btnCr.classList.add('bg-gray-50', 'text-gray-500', 'border-transparent');
+                btnCr.classList.remove('bg-black', 'text-white', 'border-[#46DA61]');
+                boxGrade.classList.remove('hidden');
+                boxCr.classList.add('hidden');
+            } else {
+                btnCr.classList.remove('bg-gray-50', 'text-gray-500', 'border-transparent');
+                btnCr.classList.add('bg-black', 'text-white', 'border-[#46DA61]');
+                btnGrade.classList.add('bg-gray-50', 'text-gray-500', 'border-transparent');
+                btnGrade.classList.remove('bg-black', 'text-white', 'border-[#46DA61]');
+                boxCr.classList.remove('hidden');
+                boxGrade.classList.add('hidden');
+            }
+        }
+
+        function calcularPresencial() {
+            const v1 = parseFloat(document.getElementById('nota-v1').value) || 0;
+            const vt = parseFloat(document.getElementById('nota-vt').value) || 0;
+            const v2 = parseFloat(document.getElementById('nota-v2').value) || 0;
+            const ms = ((v1 * 2) + vt + (v2 * 2)) / 5;
+            
+            const display = document.getElementById('media-display');
+            const status = document.getElementById('status-display');
+            const resultBox = document.getElementById('result-box');
+            const vsBox = document.getElementById('vs-simulation');
+            
+            resultBox.classList.remove('hidden');
+            display.innerText = ms.toFixed(1);
+
+            if (ms >= 7.0) {
+                status.innerText = "APROVADO";
+                status.className = "inline-block px-6 py-2 rounded-full text-sm font-bold bg-[#46DA61] text-black";
+                vsBox.classList.add('hidden');
+            } else if (ms < 4.0) {
+                status.innerText = "REPROVADO";
+                status.className = "inline-block px-6 py-2 rounded-full text-sm font-bold bg-red-500 text-white";
+                vsBox.classList.add('hidden');
+            } else {
+                status.innerText = "VERIFICAÇÃO SUPLEMENTAR";
+                status.className = "inline-block px-6 py-2 rounded-full text-sm font-bold bg-orange-500 text-white";
+                
+                // Calculo VS (Standard Media 5.0 final)
+                // (Media + VS) / 2 = 5.0 -> VS = 10 - Media
+                let needed = (10 - ms);
+                vsBox.classList.remove('hidden');
+                document.getElementById('vs-needed').innerText = needed.toFixed(1);
+            }
+        }
+
+        // CR Calculator Logic
+        function addCrRow() {
+            const container = document.getElementById('cr-disciplines-list');
+            const div = document.createElement('div');
+            div.className = 'cr-row grid grid-cols-12 gap-2 items-end';
+            div.innerHTML = `
+                <div class="col-span-5">
+                    <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Nota</label>
+                    <input type="number" class="cr-nota w-full p-2 border rounded-lg focus:border-black outline-none" placeholder="0-10" min="0" max="10" step="0.1">
+                </div>
+                <div class="col-span-5">
+                    <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">C. Horária</label>
+                    <input type="number" class="cr-ch w-full p-2 border rounded-lg focus:border-black outline-none" placeholder="Ex: 80" min="0">
+                </div>
+                <div class="col-span-2">
+                    <button onclick="clearRow(this)" class="w-full p-2 text-gray-400 hover:text-red-500 transition"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function clearRow(btn) {
+            btn.parentElement.parentElement.remove();
+        }
+
+        function calcularCR() {
+            const notas = document.querySelectorAll('.cr-nota');
+            const chs = document.querySelectorAll('.cr-ch');
+            let totalWeightedScore = 0;
+            let totalHours = 0;
+
+            notas.forEach((input, index) => {
+                const n = parseFloat(input.value) || 0;
+                const h = parseFloat(chs[index].value) || 0;
+                if(h > 0) {
+                    totalWeightedScore += (n * h);
+                    totalHours += h;
+                }
+            });
+
+            const resultBox = document.getElementById('cr-result-box');
+            const display = document.getElementById('cr-display');
+            resultBox.classList.remove('hidden');
+
+            if (totalHours > 0) {
+                const cr = totalWeightedScore / totalHours;
+                display.innerText = cr.toFixed(2);
+            } else {
+                display.innerText = "0.00";
+            }
+        }
+
+        // Initialize
+        window.onload = function() {
+            renderMatrix();
+            // Start with at least 3 rows for CR
+            addCrRow();
+            addCrRow();
+            showSection('home');
+        };
+    </script>
+</body>
+</html>
+
