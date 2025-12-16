@@ -64,9 +64,6 @@ export default function Home() {
             >
               Funcionalidades
             </a>
-            <Link href="/matriz-curricular" className="text-sm font-medium hover:text-primary transition-colors">
-              Matriz Curricular
-            </Link>
             <Link href="/portal-aluno" className="text-sm font-medium hover:text-primary transition-colors">
               Portal do Aluno
             </Link>
@@ -135,13 +132,6 @@ export default function Home() {
             >
               Funcionalidades
             </a>
-            <Link 
-              href="/matriz-curricular"
-              className="text-lg font-medium"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Matriz Curricular
-            </Link>
             <Link 
               href="/portal-aluno"
               className="text-lg font-medium"

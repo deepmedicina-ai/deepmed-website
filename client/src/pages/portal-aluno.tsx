@@ -7,7 +7,6 @@ import {
   GraduationCap,
   Calculator,
   FileText,
-  Briefcase,
   Menu,
   X,
   ArrowLeft,
@@ -20,7 +19,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 
-type Section = "home" | "matriz" | "academic" | "calculator" | "financial" | "services";
+type Section = "home" | "matriz" | "academic" | "calculator" | "calc-media" | "calc-desempenho";
 
 export default function PortalAluno() {
   const [activeSection, setActiveSection] = useState<Section>("home");
@@ -40,8 +39,6 @@ export default function PortalAluno() {
     { id: "matriz" as Section, label: "Matriz Curricular", icon: <Dna size={20} /> },
     { id: "academic" as Section, label: "Vida Acadêmica", icon: <GraduationCap size={20} /> },
     { id: "calculator" as Section, label: "Calculadoras", icon: <Calculator size={20} /> },
-    { id: "financial" as Section, label: "Contratos", icon: <FileText size={20} /> },
-    { id: "services" as Section, label: "Serviços", icon: <Briefcase size={20} /> },
   ];
 
   return (
@@ -162,11 +159,19 @@ export default function PortalAluno() {
         {/* Top Bar */}
         <div className="bg-card border-b border-border px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-3 w-full md:w-auto">
-            <Link href="/" className="inline-flex" data-testid="link-back-home">
-              <ArrowLeft size={20} />
-            </Link>
+            {activeSection !== "home" && (
+              <button 
+                onClick={() => setActiveSection("home")} 
+                className="inline-flex p-2 rounded-full hover:bg-muted transition-colors" 
+                data-testid="button-back-portal"
+              >
+                <ArrowLeft size={20} />
+              </button>
+            )}
             <h2 className="text-xl font-bold border-l-4 border-primary pl-3">
-              {menuItems.find((item) => item.id === activeSection)?.label || "Bem-vindo"}
+              {activeSection === "calc-media" ? "Calculadora de Média" : 
+               activeSection === "calc-desempenho" ? "Análise de Desempenho" :
+               menuItems.find((item) => item.id === activeSection)?.label || "Bem-vindo"}
             </h2>
           </div>
 
@@ -195,9 +200,9 @@ export default function PortalAluno() {
           {activeSection === "home" && <HomeSection onNavigate={setActiveSection} />}
           {activeSection === "matriz" && <MatrizSection />}
           {activeSection === "academic" && <AcademicSection />}
-          {activeSection === "calculator" && <CalculatorSection />}
-          {activeSection === "financial" && <FinancialSection />}
-          {activeSection === "services" && <ServicesSection />}
+          {activeSection === "calculator" && <CalculatorSection onNavigate={setActiveSection} />}
+          {activeSection === "calc-media" && <CalcMediaSection onBack={() => setActiveSection("calculator")} />}
+          {activeSection === "calc-desempenho" && <CalcDesempenhoSection onBack={() => setActiveSection("calculator")} />}
         </div>
       </main>
     </div>
@@ -258,20 +263,6 @@ function HomeSection({ onNavigate }: { onNavigate: (section: Section) => void })
           description="Informações sobre estágios, internato e TCC"
           badge="Essencial"
           onClick={() => onNavigate("academic")}
-        />
-        <QuickAccessCard
-          icon={<Briefcase className="w-8 h-8 text-primary" />}
-          title="Serviços"
-          description="Biblioteca, secretaria e outros serviços"
-          badge="Disponível"
-          onClick={() => onNavigate("services")}
-        />
-        <QuickAccessCard
-          icon={<FileText className="w-8 h-8 text-primary" />}
-          title="Contratos"
-          description="Consulte contratos e informações financeiras"
-          badge="Importante"
-          onClick={() => onNavigate("financial")}
         />
       </div>
     </div>
@@ -344,7 +335,7 @@ function AcademicSection() {
   );
 }
 
-function CalculatorSection() {
+function CalculatorSection({ onNavigate }: { onNavigate: (section: Section) => void }) {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
@@ -352,7 +343,7 @@ function CalculatorSection() {
       className="space-y-6"
     >
       <div className="grid md:grid-cols-2 gap-6">
-        <Card className="hover:border-primary/50 transition-colors">
+        <Card className="hover:border-primary/50 transition-colors cursor-pointer" onClick={() => onNavigate("calc-media")}>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Calculator className="w-5 h-5 text-primary" />
@@ -364,11 +355,11 @@ function CalculatorSection() {
             <p className="text-sm text-muted-foreground mb-4">
               Ferramenta para calcular média ponderada das disciplinas.
             </p>
-            <Button variant="outline" className="w-full" data-testid="button-calc-media">Acessar Calculadora</Button>
+            <Button variant="default" className="w-full" data-testid="button-calc-media">Acessar Calculadora</Button>
           </CardContent>
         </Card>
 
-        <Card className="hover:border-primary/50 transition-colors">
+        <Card className="hover:border-primary/50 transition-colors cursor-pointer" onClick={() => onNavigate("calc-desempenho")}>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Calculator className="w-5 h-5 text-primary" />
@@ -380,7 +371,7 @@ function CalculatorSection() {
             <p className="text-sm text-muted-foreground mb-4">
               Visualize seu desempenho ao longo dos semestres.
             </p>
-            <Button variant="outline" className="w-full" data-testid="button-calc-performance">Acessar Análise</Button>
+            <Button variant="default" className="w-full" data-testid="button-calc-performance">Acessar Análise</Button>
           </CardContent>
         </Card>
       </div>
@@ -388,7 +379,30 @@ function CalculatorSection() {
   );
 }
 
-function FinancialSection() {
+function CalcMediaSection({ onBack }: { onBack: () => void }) {
+  const [notas, setNotas] = useState<{ nota: string; peso: string }[]>([
+    { nota: "", peso: "1" },
+    { nota: "", peso: "1" },
+    { nota: "", peso: "1" },
+  ]);
+  const [resultado, setResultado] = useState<number | null>(null);
+
+  const calcularMedia = () => {
+    let somaNotas = 0;
+    let somaPesos = 0;
+    notas.forEach((item) => {
+      const nota = parseFloat(item.nota) || 0;
+      const peso = parseFloat(item.peso) || 1;
+      somaNotas += nota * peso;
+      somaPesos += peso;
+    });
+    setResultado(somaPesos > 0 ? somaNotas / somaPesos : 0);
+  };
+
+  const adicionarNota = () => {
+    setNotas([...notas, { nota: "", peso: "1" }]);
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
@@ -397,89 +411,140 @@ function FinancialSection() {
     >
       <Card>
         <CardHeader>
-          <CardTitle>Contratos e Informações Financeiras</CardTitle>
-          <CardDescription>Documentos e informações sobre mensalidades e contratos</CardDescription>
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="w-5 h-5 text-primary" />
+            Calculadora de Média Ponderada
+          </CardTitle>
+          <CardDescription>Insira suas notas e pesos para calcular a média</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="p-4 border border-border rounded-lg hover:border-primary/50 transition-colors">
-            <h3 className="font-semibold mb-2">Contrato de Prestação de Serviços Educacionais</h3>
-            <p className="text-sm text-muted-foreground mb-3">
-              Acesse o contrato de matrícula e prestação de serviços.
-            </p>
-            <Button variant="outline" size="sm" data-testid="button-view-contract">Ver Contrato</Button>
+          {notas.map((item, index) => (
+            <div key={index} className="flex gap-4 items-center">
+              <div className="flex-1">
+                <label className="text-sm text-muted-foreground mb-1 block">Nota {index + 1}</label>
+                <Input
+                  type="number"
+                  placeholder="0.0"
+                  min="0"
+                  max="10"
+                  step="0.1"
+                  value={item.nota}
+                  onChange={(e) => {
+                    const newNotas = [...notas];
+                    newNotas[index].nota = e.target.value;
+                    setNotas(newNotas);
+                  }}
+                  data-testid={`input-nota-${index}`}
+                />
+              </div>
+              <div className="w-24">
+                <label className="text-sm text-muted-foreground mb-1 block">Peso</label>
+                <Input
+                  type="number"
+                  placeholder="1"
+                  min="1"
+                  value={item.peso}
+                  onChange={(e) => {
+                    const newNotas = [...notas];
+                    newNotas[index].peso = e.target.value;
+                    setNotas(newNotas);
+                  }}
+                  data-testid={`input-peso-${index}`}
+                />
+              </div>
+            </div>
+          ))}
+          
+          <div className="flex gap-4">
+            <Button variant="outline" onClick={adicionarNota} data-testid="button-add-nota">
+              + Adicionar Nota
+            </Button>
+            <Button onClick={calcularMedia} data-testid="button-calcular">
+              Calcular Média
+            </Button>
           </div>
-          <div className="p-4 border border-border rounded-lg hover:border-primary/50 transition-colors">
-            <h3 className="font-semibold mb-2">Informações sobre Mensalidades</h3>
-            <p className="text-sm text-muted-foreground mb-3">
-              Consulte valores, datas de vencimento e formas de pagamento.
-            </p>
-            <Button variant="outline" size="sm" data-testid="button-view-tuition">Consultar</Button>
-          </div>
+
+          {resultado !== null && (
+            <div className="mt-6 p-4 bg-primary/10 rounded-lg border border-primary/20">
+              <p className="text-sm text-muted-foreground">Sua média ponderada é:</p>
+              <p className="text-3xl font-bold text-primary">{resultado.toFixed(2)}</p>
+            </div>
+          )}
         </CardContent>
       </Card>
     </motion.div>
   );
 }
 
-function ServicesSection() {
+function CalcDesempenhoSection({ onBack }: { onBack: () => void }) {
+  const [semestres, setSemestres] = useState<{ semestre: string; media: string }[]>([
+    { semestre: "1º Período", media: "" },
+    { semestre: "2º Período", media: "" },
+    { semestre: "3º Período", media: "" },
+    { semestre: "4º Período", media: "" },
+  ]);
+
+  const mediaGeral = () => {
+    const mediasValidas = semestres.filter(s => s.media !== "").map(s => parseFloat(s.media) || 0);
+    if (mediasValidas.length === 0) return 0;
+    return mediasValidas.reduce((a, b) => a + b, 0) / mediasValidas.length;
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
     >
-      <div className="grid md:grid-cols-2 gap-6">
-        <Card className="hover:border-primary/50 transition-colors">
-          <CardHeader>
-            <CardTitle>Biblioteca</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              Acesso ao acervo digital e físico da biblioteca universitária.
-            </p>
-            <Button variant="outline" className="w-full" data-testid="button-library">Acessar Biblioteca</Button>
-          </CardContent>
-        </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="w-5 h-5 text-primary" />
+            Análise de Desempenho Acadêmico
+          </CardTitle>
+          <CardDescription>Acompanhe sua evolução ao longo dos semestres</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid md:grid-cols-2 gap-4">
+            {semestres.map((item, index) => (
+              <div key={index} className="p-4 border border-border rounded-lg">
+                <label className="text-sm font-medium mb-2 block">{item.semestre}</label>
+                <Input
+                  type="number"
+                  placeholder="Média do período"
+                  min="0"
+                  max="10"
+                  step="0.1"
+                  value={item.media}
+                  onChange={(e) => {
+                    const newSemestres = [...semestres];
+                    newSemestres[index].media = e.target.value;
+                    setSemestres(newSemestres);
+                  }}
+                  data-testid={`input-media-${index}`}
+                />
+              </div>
+            ))}
+          </div>
 
-        <Card className="hover:border-primary/50 transition-colors">
-          <CardHeader>
-            <CardTitle>Secretaria Acadêmica</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              Solicitação de documentos, histórico escolar e outros serviços.
-            </p>
-            <Button variant="outline" className="w-full" data-testid="button-secretary">Contatar Secretaria</Button>
-          </CardContent>
-        </Card>
+          <div className="mt-6 p-4 bg-primary/10 rounded-lg border border-primary/20">
+            <p className="text-sm text-muted-foreground">Média Geral Acumulada:</p>
+            <p className="text-3xl font-bold text-primary">{mediaGeral().toFixed(2)}</p>
+          </div>
 
-        <Card className="hover:border-primary/50 transition-colors">
-          <CardHeader>
-            <CardTitle>Suporte Técnico</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              Ajuda com sistemas acadêmicos e plataformas online.
-            </p>
-            <Button variant="outline" className="w-full" data-testid="button-support">Obter Suporte</Button>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:border-primary/50 transition-colors">
-          <CardHeader>
-            <CardTitle>Ouvidoria</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground mb-4">
-              Canal para sugestões, reclamações e elogios.
-            </p>
-            <Button variant="outline" className="w-full" data-testid="button-ombudsman">Falar com Ouvidoria</Button>
-          </CardContent>
-        </Card>
-      </div>
+          <Button 
+            variant="outline" 
+            onClick={() => setSemestres([...semestres, { semestre: `${semestres.length + 1}º Período`, media: "" }])}
+            data-testid="button-add-semestre"
+          >
+            + Adicionar Período
+          </Button>
+        </CardContent>
+      </Card>
     </motion.div>
   );
 }
+
 
 function QuickAccessCard({
   icon,
