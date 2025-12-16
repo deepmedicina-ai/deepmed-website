@@ -5,11 +5,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
-import logoDeepMed from './assets/logo-icon.svg';
+import MatrizCurricular from "@/pages/matriz-curricular";
+
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/matriz-curricular" component={MatrizCurricular} />
       <Route component={NotFound} />
     </Switch>
   );

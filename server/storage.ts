@@ -1,5 +1,9 @@
-import { type User, type InsertUser } from "@shared/schema";
+import { type User, type InsertUser, users } from "@shared/schema";
 import { randomUUID } from "crypto";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { eq } from "drizzle-orm";
+import pkg from "pg";
+const { Pool } = pkg;
 
 // modify the interface with any CRUD methods
 // you might need
@@ -35,4 +39,36 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export class DatabaseStorage implements IStorage {
+  private db;
+
+  constructor(connectionString: string) {
+    const pool = new Pool({
+      connectionString,
+    });
+    this.db = drizzle(pool);
+  }
+
+  async getUser(id: string): Promise<User | undefined> {
+    const result = await this.db.select().from(users).where(eq(users.id, id));
+    return result[0];
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const result = await this.db
+      .select()
+      .from(users)
+      .where(eq(users.username, username));
+    return result[0];
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const result = await this.db.insert(users).values(insertUser).returning();
+    return result[0];
+  }
+}
+
+// Use DatabaseStorage if DATABASE_URL is provided, otherwise fallback to MemStorage
+export const storage = process.env.DATABASE_URL
+  ? new DatabaseStorage(process.env.DATABASE_URL)
+  : new MemStorage();
