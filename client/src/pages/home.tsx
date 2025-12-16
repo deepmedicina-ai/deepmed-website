@@ -521,15 +521,15 @@ export default function Home() {
             </a>
           </div>
           <div className="flex gap-6 text-sm text-muted-foreground">
-            <a href="#" className="hover:text-primary transition-colors">
-              Termos
-            </a>
-            <a href="#" className="hover:text-primary transition-colors">
+            <Link href="/termos-uso" className="hover:text-primary transition-colors" data-testid="link-termos">
+              Termos de Uso
+            </Link>
+            <Link href="/politica-privacidade" className="hover:text-primary transition-colors" data-testid="link-privacidade">
               Privacidade
-            </a>
-            <a href="#" className="hover:text-primary transition-colors">
+            </Link>
+            <Link href="/contato" className="hover:text-primary transition-colors" data-testid="link-contato">
               Contato
-            </a>
+            </Link>
           </div>
 
           <div className="flex gap-4">

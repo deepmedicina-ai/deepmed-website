@@ -7,6 +7,9 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import MatrizCurricular from "@/pages/matriz-curricular";
 import PortalAluno from "@/pages/portal-aluno";
+import PoliticaPrivacidade from "@/pages/politica-privacidade";
+import TermosUso from "@/pages/termos-uso";
+import Contato from "@/pages/contato";
 
 function Router() {
   return (
@@ -14,6 +17,9 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/matriz-curricular" component={MatrizCurricular} />
       <Route path="/portal-aluno" component={PortalAluno} />
+      <Route path="/politica-privacidade" component={PoliticaPrivacidade} />
+      <Route path="/termos-uso" component={TermosUso} />
+      <Route path="/contato" component={Contato} />
       <Route component={NotFound} />
     </Switch>
   );
