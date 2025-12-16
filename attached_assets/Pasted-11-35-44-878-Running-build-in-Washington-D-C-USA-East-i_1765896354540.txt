@@ -1,0 +1,55 @@
+11:35:44.878 Running build in Washington, D.C., USA (East) – iad1
+11:35:44.878 Build machine configuration: 2 cores, 8 GB
+11:35:45.019 Cloning github.com/deepmedicina-ai/deepmed-website (Branch: main, Commit: 3eb304a)
+11:35:46.406 Cloning completed: 1.387s
+11:35:46.655 Restored build cache from previous deployment (CC4Z3YtkWkEN38JN8WGDGA5onGpx)
+11:35:47.388 Running "vercel build"
+11:35:47.809 Vercel CLI 50.0.1
+11:35:48.372 Running "install" command: `npm install`...
+11:35:50.643 
+11:35:50.644 up to date, audited 441 packages in 2s
+11:35:50.644 
+11:35:50.644 42 packages are looking for funding
+11:35:50.644   run `npm fund` for details
+11:35:50.664 
+11:35:50.665 4 moderate severity vulnerabilities
+11:35:50.665 
+11:35:50.665 To address all issues (including breaking changes), run:
+11:35:50.666   npm audit fix --force
+11:35:50.666 
+11:35:50.666 Run `npm audit` for details.
+11:35:50.907 
+11:35:50.907 > rest-express@1.0.0 build
+11:35:50.907 > vite build && node copy-public.js
+11:35:50.907 
+11:35:51.352 [36mvite v7.1.12 [32mbuilding for production...[36m[39m
+11:35:51.458 transforming...
+11:35:55.093 [32m✓[39m 2172 modules transformed.
+11:35:55.464 rendering chunks...
+11:35:55.469 [meta-images] using production domain: https://deepmed.net.br
+11:35:55.470 [meta-images] updating meta image tags to: https://deepmed.net.br/opengraph.jpg
+11:35:55.476 computing gzip size...
+11:35:55.495 [2m../dist/public/[22m[32mindex.html                                                                   [39m[1m[2m  4.90 kB[22m[1m[22m[2m │ gzip:   1.61 kB[22m
+11:35:55.495 [2m../dist/public/[22m[2massets/[22m[32mabstract_medical_sound_wave_with_digital_tech_aesthetic-BQFkET-b.png  [39m[1m[2m966.22 kB[22m[1m[22m
+11:35:55.496 [2m../dist/public/[22m[2massets/[22m[35mindex-DO1cEHYi.css                                                    [39m[1m[2m108.79 kB[22m[1m[22m[2m │ gzip:  17.47 kB[22m
+11:35:55.496 [2m../dist/public/[22m[2massets/[22m[36mindex-DKCNjGIx.js                                                     [39m[1m[33m510.03 kB[39m[22m[2m │ gzip: 159.45 kB[22m
+11:35:55.496 [33m
+11:35:55.496 (!) Some chunks are larger than 500 kB after minification. Consider:
+11:35:55.497 - Using dynamic import() to code-split the application
+11:35:55.497 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+11:35:55.497 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+11:35:55.497 [32m✓ built in 4.10s[39m
+11:35:55.572 ✅ Copied apple-touch-icon.png
+11:35:55.573 ✅ Copied favicon.png
+11:35:55.573 ✅ Copied logo-deepmed.png
+11:35:55.574 ⚠️  File not found: og-image.png
+11:35:55.574 ✅ Copied opengraph.jpg
+11:35:55.575 ✅ Copied manifest.json
+11:35:55.575 ✅ Copied sw.js
+11:35:55.661 Build Completed in /vercel/output [7s]
+11:35:55.766 Deploying outputs...
+11:35:58.502 Deployment completed
+11:35:59.444 Creating build cache...
+11:36:13.883 Created build cache: 14.438s
+11:36:13.884 Uploading build cache [56.78 MB]
+11:36:14.992 Build cache uploaded: 1.108s
