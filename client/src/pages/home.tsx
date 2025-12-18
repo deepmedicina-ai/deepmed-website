@@ -28,7 +28,7 @@ import {
   Maximize2,
   HardDrive,
 } from "lucide-react";
-import heroImage from "@assets/generated_images/abstract_medical_sound_wave_with_digital_tech_aesthetic.png";
+import heroImage from "@assets/generated_images/abstract_medical_sound_wave_with_digital_tech_aesthetic_optimized.jpg";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
