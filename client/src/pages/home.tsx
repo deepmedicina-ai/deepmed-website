@@ -430,13 +430,13 @@ export default function Home() {
               icon={<BookOpen className="w-10 h-10 text-primary" />}
               title="Guias de Estudo"
               description="Materiais em PDF que acompanham cada episódio para você revisar e fixar o conteúdo."
-              link="https://drive.google.com/drive/folders/1VIhK9ciLWJ-FpL54mYdotKoJHBdfA74x?usp=sharing"
+              link="https://drive.google.com/drive/folders/1oTH-NaHPIhdUe1ViYKOI-SbG4NtJOPPE?usp=sharing"
             />
             <FeatureCard
               icon={<FileText className="w-10 h-10 text-primary" />}
               title="Infográficos"
               description="Resumos visuais de alta qualidade para consultas rápidas no dia a dia."
-              link="https://drive.google.com/drive/folders/1YhQbzt0bCNph7dO5iiC5IdWTMuLVthI8?usp=sharing"
+              link="https://drive.google.com/drive/folders/1oTH-NaHPIhdUe1ViYKOI-SbG4NtJOPPE?usp=sharing"
             />
             <FeatureCard
               icon={<GraduationCap className="w-10 h-10 text-primary" />}
